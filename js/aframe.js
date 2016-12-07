@@ -58048,7 +58048,6 @@ module.exports.Component = registerComponent('look-controls', {
       hmdEuler.setFromQuaternion(hmdQuaternion, 'YXZ');
       if (isMobile) {
         // In mobile we allow camera rotation with touch events and sensors
-          /*
          var bufferTime = 30;
           
          this.stabilizeCameraRotation.x.unshift(radToDeg(hmdEuler.x));
@@ -58072,7 +58071,11 @@ module.exports.Component = registerComponent('look-controls', {
           var directTo={x:0,y:0,z:0};
           var sep=1;
           if(driftDistance<5){
-             sep = Math.ceil(bufferTime/Math.ceil(driftDistance));
+              if(driftDistance==0){
+                sep = bufferTime;
+              }else{
+                sep = Math.ceil(bufferTime/Math.ceil(driftDistance));
+              }
               sep = (sep==0)?bufferTime:sep;
           }
           for(var i=0;i<sep;i++){
@@ -58087,12 +58090,6 @@ module.exports.Component = registerComponent('look-controls', {
           x: directTo.x + radToDeg(pitchObject.rotation.x),
           y: directTo.y + radToDeg(yawObject.rotation.y),
           z: directTo.z
-        };
-        */
-        rotation = {
-          x: radToDeg(hmdEuler.x) + radToDeg(pitchObject.rotation.x),
-          y: radToDeg(hmdEuler.y) + radToDeg(yawObject.rotation.y),
-          z: radToDeg(hmdEuler.z)
         };
       } else if (!sceneEl.is('vr-mode') || isNullVector(hmdEuler) || !this.data.hmdEnabled) {
         currentRotation = this.el.getComputedAttribute('rotation');
