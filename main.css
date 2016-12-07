@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+}
+#scope{
+    position:absolute;
+    width:350px;
+    height:350px;
+    left:185px;
+    top:50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    overflow: hidden;
+}
+#scope iframe{
+        width: 350px;
+        height: 350px;
+        border: none;
+}
+#base_wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 720px;
+    min-height: 1100px;
+    
+}
+#scopewaku{
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-image: url(images/scope.png);
+    background-size: contain;
+    background-position: center;
+}
+#gard{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

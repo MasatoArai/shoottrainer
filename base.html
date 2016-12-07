@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utg-8">
+    <title>test demo</title>
+    <script src="js/decimal.js"></script>
+    <script src="js/aframe.js"></script>
+    </head>
+    <body>
+        <a-scene vr-mode-ui="enabled:false">
+            
+  <a-assets>
+    <img id="sky" src="images/8922781654_454b6b6657_k.jpg">
+      <img id="target" src="images/target.png">
+  </a-assets>
+            <a-image src="#target" position="0 1.6 -50" width="0.5" height="0.5"></a-image>
+            <a-sky src="#sky"></a-sky>
+            
+            <a-entity camera="userHeight: 1.6; fov:4.4563384" look-controls>
+                <a-cone color = "tomato" height="0.05" radius-bottom="0.02" radius-top="0" position="0 0.08 -3" rotation="0 0 0"></a-cone>
+            </a-entity>
+        </a-scene>
+    </body>
+</html>
