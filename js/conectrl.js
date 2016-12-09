@@ -4,8 +4,8 @@ var baseCtrl;
     var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;
         window.requestAnimationFrame = requestAnimationFrame;
     window.addEventListener("load",function(event){
-        baseCtrl = new BaseCtrl();
-        baseCtrl.startLoop();
+        /*baseCtrl = new BaseCtrl();
+        baseCtrl.startLoop();*/
     });
     function BaseCtrl(){
         this.cam = document.querySelector('#basecam');
