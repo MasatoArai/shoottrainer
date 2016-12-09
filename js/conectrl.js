@@ -4,8 +4,8 @@ var baseCtrl;
     var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;
         window.requestAnimationFrame = requestAnimationFrame;
     window.addEventListener("load",function(event){
-        /*baseCtrl = new BaseCtrl();
-        baseCtrl.startLoop();*/
+        baseCtrl = new BaseCtrl();
+        baseCtrl.startLoop();
     });
     function BaseCtrl(){
         this.cam = document.querySelector('#basecam');
@@ -22,7 +22,16 @@ var baseCtrl;
             var srad = Math.atan2(camRotation.y,camRotation.x)*180/Math.PI;
             self.cone.setAttribute('rotation',{x:-camRotation.x-90,y:-camRotation.y,z:-camRotation.z});
             self.directcone.setAttribute('rotation',{x:0,y:0,z:srad-180});
+            if(getDriftDistance(camRotation.x,camRotation.y)<1){
+                self.directcone.setAttribute('visible',false);
+            }else if(!self.directcone.getAttribute('visible')){
+                self.directcone.setAttribute('visible',true);
+            }
             parent.bridgeCtrl.linkRotation(camRotation);
         }
+        
+          function getDriftDistance(dx,dy){
+             return Math.sqrt(dx*dx+dy*dy);
+          }
     }
 })();
