@@ -3,6 +3,15 @@ var bridgeCtrl,vueApp
 (function(){
     document.addEventListener('DOMContentLoaded',function(event){
         bridgeCtrl=new bridge();
+    });
+    function bridge(){
+        this.baseframe;
+        this.scopeframe;
+    }
+    bridge.prototype.setIframe = function(q){
+            switch(q){
+                case '#baseframe':
+                    this.baseframe = document.querySelector('#baseframe');
         vueApp = new Vue({
           el: '#base_wrapper',
           data: {
@@ -27,15 +36,6 @@ var bridgeCtrl,vueApp
                     
                 }
             }});
-    });
-    function bridge(){
-        this.baseframe;
-        this.scopeframe;
-    }
-    bridge.prototype.setIframe = function(q){
-            switch(q){
-                case '#baseframe':
-                    this.baseframe = document.querySelector('#baseframe');
                     break;
                 case '#scopeframe':
                     this.scopeframe = document.querySelector('#scopeframe');
