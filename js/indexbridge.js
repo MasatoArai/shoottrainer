@@ -6,7 +6,9 @@ var bridgeCtrl,vueApp
         vueApp = new Vue({
           el: '#base_wrapper',
           data: {
-              showMenu:false
+              showMenu:false,
+              basesrc:"base.html",
+              scopesrc:"scope.html"
           },
             methods: {
                 setZoom:function(n){
