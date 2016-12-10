@@ -6,6 +6,13 @@ body,html{
     width: 100%;
     height: 100%;
 }
+#baseframe{
+    width:720px;
+    height:100%;
+    position:absolute;
+    left:0;top:0;
+    border:none;
+}
 #scope{
     position:absolute;
     width:350px;
