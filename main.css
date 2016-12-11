@@ -37,14 +37,13 @@ body,html{
     
 }
 #scopewaku{
-    width: 400px;
-    height: 400px;
+    width: 480px;
+    height: 480px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     background-repeat: no-repeat;
-    background-image: url(images/scope.png);
     background-size: contain;
     background-position: center;
 }
@@ -75,6 +74,24 @@ body,html{
     top: 0;
     left: 0;
 }
+#menuclose{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-image: url(images/close.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100px;
+    width: 100px;
+    background-color: rgba(0,0,0,0);
+    border: none;
+}
+#menu #kind{
+    position: relative;
+    top: 200px;
+}
+
 #menu figure{
     font-size: 40px;
     color: #fff;
@@ -85,16 +102,19 @@ body,html{
     text-align: center;
     padding: 5px;}
 
-#menu figure ul{
+#menu  ul{
     display: flex;
     justify-content: center;
     list-style: none;
 }
-#menu figure ul li button{
+#menu  ul li button{
     width: 200px;
     height: 100px;
     font-size: 50px;
     background-color: rgba(0,0,0,0.4);
     color: #fff;
     border: solid #fff 2px;
+}
+#menu ul#kind li button{
+    font-size: 30px;
 }

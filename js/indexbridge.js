@@ -8,9 +8,31 @@ var bridgeCtrl,vueApp
           data: {
               showMenu:false,
               basesrc:"base.html",
-              scopesrc:"scope.html"
+              scopesrc:"scope.html",
+              kind:'compound'
           },
+            computed:{
+            scopewaku:function(){
+                var obj={};
+                switch(this.kind){
+                case 'compound':
+                obj={backgroundImage:"url(images/scope.png)",
+                    backgroundSize:'contain'};
+                break;
+                case 'recurv':
+                obj={backgroundImage:"url(images/recpin.png)",
+                    backgroundSize:'50%'};
+                break;
+            }
+                return obj;
+        }
+            
+        },
             methods: {
+                setScopeKind:function(k){
+                this.kind=k;
+                
+        },
                 setZoom:function(n){
                     switch(n){
                         case 4:
@@ -18,11 +40,11 @@ var bridgeCtrl,vueApp
                             this.showMenu = false;
                             break;
                         case 6:
-                            bridgeCtrl.setLensTimes(2.5);
+                            bridgeCtrl.setLensTimes(2.7);
                             this.showMenu = false;
                             break;
                         case 8:
-                            bridgeCtrl.setLensTimes(3);
+                            bridgeCtrl.setLensTimes(3.5);
                             this.showMenu = false;
                             break;
                     }

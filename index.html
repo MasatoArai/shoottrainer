@@ -6,22 +6,32 @@
     <title>test demo</title>
     
     <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="js/vue.min.js"></script>
+    <script src="js/vue.js"></script>
     <script src="js/indexbridge.js"></script>
     
     </head>
     <body style="width:100%;height:100%;background-color:#ccc">
         <div id="base_wrapper">
         <iframe v-bind:src="basesrc" id="baseframe"></iframe>
-        <div id="scope">
+        <div id="scope" v-show="(kind=='compound')">
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
-        <div id="scopewaku">
+        <div id="scopewaku" v-bind:style="scopewaku">
             </div>
             <div id="gard">
-                <button id="menubut" v-on:click="showMenu=true">MENU</button>
+                <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
             <div id="menu" v-if="showMenu">
-                <figure>
+                <button id="menuclose" v-on:click="showMenu=false">
+                </button>
+                    <ul id="kind">
+                        <li>
+                            <button v-on:click="setScopeKind('compound')">Compound</button>
+                        </li>
+                        <li>
+                            <button v-on:click="setScopeKind('recurv')">Recurve</button>
+                        </li>
+                    </ul>
+                <figure v-if="kind=='compound'">
                     <figcaption>
                         レンズ倍率
                     </figcaption>
