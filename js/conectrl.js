@@ -1,5 +1,5 @@
 var baseCtrl;
-
+var baseVue
 (function() {
     var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;
         window.requestAnimationFrame = requestAnimationFrame;
@@ -11,8 +11,26 @@ var baseCtrl;
         this.cam = document.querySelector('#basecam');
         this.cone = document.querySelector('#cone');
         this.directcone = document.querySelector('#directcone');
+        this.targetFaces = document.querySelectorAll('.targetface');
+        this.enableFace;
+        this.setTarget('cp50');
         parent.bridgeCtrl.setIframe('#baseframe');
     }
+    BaseCtrl.prototype.setTarget = function(targettype){
+        if(this.enableFace)this.enableFace.setAttribute('visible','false');
+        switch(targettype){
+            case 'rc70':
+                this.enableFace = this.targetFaces[0];
+                break;
+            case 'cp50':
+                this.enableFace = this.targetFaces[1];
+                break;
+            case 'id18':
+                this.enableFace = this.targetFaces[2];
+                break;
+        }
+        this.enableFace.setAttribute('visible','true');
+    };
     BaseCtrl.prototype.startLoop = function(){
         var self = this;
         lookloop();

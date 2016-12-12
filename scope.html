@@ -11,12 +11,20 @@
             
   <a-assets>
     <img id="sky" src="images/8922781654_454b6b6657_k.jpg">
-      <img id="target" src="images/target.png">
+      <img id="target50C" src="images/target.png">
+      <img id="target70R" src="images/target10.png">
+      <img id="target18I" src="images/threepoint.png">
   </a-assets>
-            <a-image src="#target" position="0 1.6 -50" width="0.5" height="0.5"></a-image>
-            <a-entity camera="userHeight: 1.6; fov:2.166275; zoom:3.5" id="scopecam">
-            </a-entity>
+            <a-image src="#target70R" position="0 1.6 -70" width="1.26" height="1.26" class="targetface"></a-image>
+            
+            <a-image src="#target50C" position="0 1.6 -50" width="0.5" height="0.5" class="targetface"></a-image>
+            
+            <a-image src="#target18I" position="0 1.6 -18" width="0.23" height="0.68" class="targetface"></a-image>
+            
             <a-sky src="#sky"></a-sky>
+            
+            <a-entity camera="userHeight: 1.6; fov:1.42; zoom:2.3" id="scopecam">
+            </a-entity>
         </a-scene>
     </body>
     

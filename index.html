@@ -20,6 +20,7 @@
             </div>
             <div id="gard">
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
+                <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>
@@ -31,6 +32,22 @@
                             <button v-on:click="setScopeKind('recurv')">Recurve</button>
                         </li>
                     </ul>
+                <figure id="targetfaces">
+                    <figcaption>
+                        マト選択
+                    </figcaption>
+                    <ul>
+                        <li>
+                            <button v-on:click="setTargetFace('cp50')">CP50m</button>
+                        </li>
+                        <li>
+                            <button v-on:click="setTargetFace('rc70')">RC70m</button>
+                        </li>
+                        <li>
+                            <button v-on:click="setTargetFace('id18')">18mRound</button>
+                        </li>
+                </ul>
+                </figure>
                 <figure v-if="kind=='compound'">
                     <figcaption>
                         レンズ倍率

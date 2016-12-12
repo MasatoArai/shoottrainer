@@ -29,23 +29,24 @@ var bridgeCtrl,vueApp
             
         },
             methods: {
+                setTargetFace:function(code){
+                 bridgeCtrl.baseframe.contentWindow.baseCtrl.setTarget(code);
+                 bridgeCtrl.scopeframe.contentWindow.scopeCtrl.setTarget(code);
+            },
                 setScopeKind:function(k){
                 this.kind=k;
                 
-        },
+            },
                 setZoom:function(n){
                     switch(n){
                         case 4:
-                            bridgeCtrl.setLensTimes(2);
-                            this.showMenu = false;
+                            bridgeCtrl.setLensTimes(1.6);
                             break;
                         case 6:
-                            bridgeCtrl.setLensTimes(2.7);
-                            this.showMenu = false;
+                            bridgeCtrl.setLensTimes(1.9);
                             break;
                         case 8:
-                            bridgeCtrl.setLensTimes(3.5);
-                            this.showMenu = false;
+                            bridgeCtrl.setLensTimes(2.3);
                             break;
                     }
                     

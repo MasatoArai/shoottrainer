@@ -92,6 +92,14 @@ body,html{
     top: 200px;
 }
 
+#menu #targetfaces{
+    position: relative;
+    top: 200px;
+}
+#menu #targetfaces button{
+    font-size: 35px;
+}
+
 #menu figure{
     font-size: 40px;
     color: #fff;

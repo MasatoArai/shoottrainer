@@ -7,16 +7,20 @@
     <script src="js/conectrl.js"></script>
     </head>
     <body>
-        <a-scene vr-mode-ui="enabled:false">
+        <a-scene vr-mode-ui="enabled:false" id="app">
             
   <a-assets>
     <img id="sky" src="images/8922781654_454b6b6657_k.jpg">
-      <img id="target" src="images/target.png">
+      <img id="target50C" src="images/target.png">
+      <img id="target70R" src="images/target10.png">
+      <img id="target18I" src="images/threepoint.png">
   </a-assets>
-            <a-image src="#target" position="0 1.6 -50" width="0.5" height="0.5"></a-image>
+            <a-image src="#target70R" position="0 1.6 -70" width="1.26" height="1.26" class="targetface" visible="false"></a-image>
+            <a-image src="#target50C" position="0 1.6 -50" width="0.5" height="0.5" class="targetface" visible="false"></a-image>
+            <a-image src="#target18I" position="0 1.6 -18" width="0.23" height="0.68" class="targetface" visible="false"></a-image>
             <a-sky src="#sky"></a-sky>
             
-            <a-entity camera="userHeight: 1.6; fov:4.4563384" look-controls id="basecam">
+            <a-entity camera="userHeight: 1.6; fov:4.4563384; zoom:1" look-controls id="basecam">
                 <a-entity position="0 0.08 -3" id="cone">
                 <a-cone color = "tomato" height="0.02" radius-bottom="0.006" radius-top="0" position="0 0.012 0" rotation="0 0 0"></a-cone>
                 <a-cone color = "#0000ff" height="0.02" radius-bottom="0.005" radius-top="0" position="0 -0.012 0" rotation="180 0 0" id="cone"></a-cone>
