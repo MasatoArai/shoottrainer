@@ -6,6 +6,7 @@
     <title>test demo</title>
     
     <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/indexbridge.js"></script>
     
@@ -20,7 +21,7 @@
             </div>
             <div id="gard">
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
-                <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
+                <button id="clearbut" v-if="!showMenu" v-on:click="clearShoot">Clear</button>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>

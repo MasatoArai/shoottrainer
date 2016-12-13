@@ -6,35 +6,45 @@ body,html{
     width: 100%;
     height: 100%;
 }
+#scope{
+    position:absolute;
+    width:350px;
+    height:350px;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 #baseframe{
-    width:720px;
+    width:100%;
     height:100%;
     position:absolute;
     left:0;top:0;
     border:none;
 }
-#scope{
-    position:absolute;
-    width:350px;
-    height:350px;
-    left:185px;
-    top:50%;
-    transform: translateY(-50%);
-    border-radius: 50%;
-    overflow: hidden;
-}
-#scope iframe{
+#scopeframe{
         width: 350px;
         height: 350px;
         border: none;
+}
+@media screen and (orientation: portrait){
+    #base_wrapper{
+        width: 720px;
+        height: 1280px;
+    }
+}
+@media screen and (orientation: landscape){
+    #base_wrapper{
+        width: 1280px;
+        height: 720px;
+    }
 }
 #base_wrapper{
     position: absolute;
     top: 0;
     left: 0;
-    width: 720px;
-    min-height: 1100px;
-    
 }
 #scopewaku{
     width: 480px;
@@ -66,6 +76,18 @@ body,html{
     color: #fff;
     border-radius: 10px;
 }
+#clearbut{
+    width: 200px;
+    font-size: 40px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.5);
+    color: #fff;
+    border-radius: 10px;
+}
 #menu{
     width: 100%;
     height: 100%;
@@ -89,12 +111,11 @@ body,html{
 }
 #menu #kind{
     position: relative;
-    top: 200px;
+    top: 100px;
 }
 
 #menu #targetfaces{
-    position: relative;
-    top: 200px;
+    padding-top: 150px;
 }
 #menu #targetfaces button{
     font-size: 35px;
@@ -103,8 +124,7 @@ body,html{
 #menu figure{
     font-size: 40px;
     color: #fff;
-    position: relative;
-    top: 200px;
+    padding-top: 20px;
 }
 #menu figure figcaption{
     text-align: center;
