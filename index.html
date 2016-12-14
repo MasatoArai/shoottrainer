@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=720">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
     <title>test demo</title>
     
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -27,10 +27,10 @@
                 </button>
                     <ul id="kind">
                         <li>
-                            <button v-on:click="setScopeKind('compound')">Compound</button>
+                            <button v-on:click="setScopeKind('compound')" v-bind:class="{select:kind=='compound'}">Compound</button>
                         </li>
                         <li>
-                            <button v-on:click="setScopeKind('recurv')">Recurve</button>
+                            <button v-on:click="setScopeKind('recurv')" v-bind:class="{select:kind=='recurv'}">Recurve</button>
                         </li>
                     </ul>
                 <figure id="targetfaces">
@@ -39,13 +39,13 @@
                     </figcaption>
                     <ul>
                         <li>
-                            <button v-on:click="setTargetFace('cp50')">CP50m</button>
+                            <button v-on:click="setTargetFace('cp50')" v-bind:class="{select:targetFace=='cp50'}">CP50m</button>
                         </li>
                         <li>
-                            <button v-on:click="setTargetFace('rc70')">RC70m</button>
+                            <button v-on:click="setTargetFace('rc70')" v-bind:class="{select:targetFace=='rc70'}">RC70m</button>
                         </li>
                         <li>
-                            <button v-on:click="setTargetFace('id18')">18mRound</button>
+                            <button v-on:click="setTargetFace('id18')" v-bind:class="{select:targetFace=='id18'}">18mRound</button>
                         </li>
                 </ul>
                 </figure>
@@ -55,15 +55,15 @@
                     </figcaption>
                 <ul>
                     <li>
-                    <button v-on:click="setZoom(4)">
+                    <button v-on:click="setZoom(4)" v-bind:class="{select:zoom==4}">
                         4X</button>
                     </li>
                     <li>
-                    <button v-on:click="setZoom(6)">
+                    <button v-on:click="setZoom(6)" v-bind:class="{select:zoom==6}">
                         6X</button>
                     </li>
                     <li>
-                    <button v-on:click="setZoom(8)">
+                    <button v-on:click="setZoom(8)" v-bind:class="{select:zoom==8}">
                         8X</button>
                     </li>
                 </ul>

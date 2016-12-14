@@ -20,7 +20,10 @@ var bridgeCtrl,vueApp
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
-              kind:'compound'
+              kind:'compound',
+              zoom:8,
+              targetFace:'cp50'
+              
           },
             computed:{
             scopewaku:function(){
@@ -40,10 +43,16 @@ var bridgeCtrl,vueApp
             
         },
             methods: {
+                initWorld:function(){
+                    this.setTargetFace(this.targetFace);
+                    this.setScopeKind(this.kind);
+                    this.setZoom(this.zoom)
+                },
                 clearShoot:function(){
                     bridgeCtrl.clearShoot();
                 },
                 setTargetFace:function(code){
+                 this.targetFace=code;
                  bridgeCtrl.baseframe.contentWindow.baseCtrl.setTarget(code);
                  bridgeCtrl.scopeframe.contentWindow.scopeCtrl.setTarget(code);
             },
@@ -52,12 +61,13 @@ var bridgeCtrl,vueApp
                 
             },
                 setZoom:function(n){
+                    this.zoom=n;
                     switch(n){
                         case 4:
-                            bridgeCtrl.setLensTimes(1.6);
+                            bridgeCtrl.setLensTimes(1.3);
                             break;
                         case 6:
-                            bridgeCtrl.setLensTimes(1.9);
+                            bridgeCtrl.setLensTimes(1.8);
                             break;
                         case 8:
                             bridgeCtrl.setLensTimes(2.3);
@@ -91,7 +101,7 @@ var bridgeCtrl,vueApp
             var param={},param2={};
             if(!b){
                 param = this.baseframe.contentWindow.baseCtrl.cam.getAttribute("camera");
-                param.fov = "2.6";
+                param.fov = "2.96";
                 this.baseframe.contentWindow.baseCtrl.cam.setAttribute('camera',param);
                 param2 = bridgeCtrl.baseframe.contentWindow.baseCtrl.cone.getAttribute("position");
                 param2.x=-0.08;
@@ -110,24 +120,32 @@ var bridgeCtrl,vueApp
             switch(q){
                 case '#baseframe':
                     this.baseframe = document.querySelector('#baseframe');
-                    this.orientationChange();
                     break;
                 case '#scopeframe':
                     this.scopeframe = document.querySelector('#scopeframe');
                     break;
             }
+        if(this.baseframe&&this.scopeframe){
+            var self=this;
+            setTimeout(function(){
+                self.orientationChange();
+                vueApp.initWorld();
+            })
+        }
         }
     bridge.prototype.linkRotation = function(obj){
         if(this.scopeframe){
-            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
+            if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
     }
     bridge.prototype.setLensTimes = function(n){
         if(this.scopeframe){
+            if(this.scopeframe.contentWindow.scopeCtrl) {
             var lens = this.scopeframe.contentWindow.scopeCtrl.cam
             var dfo = lens.getAttribute("camera");
             dfo.zoom = n;
             lens.setAttribute('camera',dfo);
+        }
         }
     }
     

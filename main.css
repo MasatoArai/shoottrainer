@@ -6,17 +6,23 @@ body,html{
     width: 100%;
     height: 100%;
 }
+#base_wrapper{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
 #scope{
     position:absolute;
-    width:350px;
-    height:350px;
+    width:65vmin;
+    height: 65vmin;
     left:50%;
     top:50%;
     transform: translate(-50%,-50%);
     border-radius: 50%;
     overflow: hidden;
 }
-
 #baseframe{
     width:100%;
     height:100%;
@@ -25,38 +31,28 @@ body,html{
     border:none;
 }
 #scopeframe{
-        width: 350px;
-        height: 350px;
+        width: 100%;
+        height: 100%;
         border: none;
 }
-@media screen and (orientation: portrait){
-    #base_wrapper{
-        width: 720px;
-        height: 1280px;
-    }
-}
-@media screen and (orientation: landscape){
-    #base_wrapper{
-        width: 1280px;
-        height: 720px;
-    }
-}
+
 #base_wrapper{
     position: absolute;
     top: 0;
     left: 0;
 }
 #scopewaku{
-    width: 480px;
-    height: 480px;
     position: absolute;
     left: 50%;
     top: 50%;
+    width:70vmin;
+    height:70vmin;
     transform: translate(-50%, -50%);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
 }
+
 #gard{
     position: absolute;
     top: 0;
@@ -65,25 +61,21 @@ body,html{
     height: 100%;
 }
 #menubut{
-    width: 200px;
-    font-size: 40px;
+    font-size: 20px;
     position: absolute;
     top: 10px;
     left: 10px;
     padding: 10px;
-    background-color: rgba(0,0,0,0.7);
     border: 2px solid rgba(255,255,255,0.5);
     color: #fff;
     border-radius: 10px;
 }
 #clearbut{
-    width: 200px;
-    font-size: 40px;
+    font-size: 20px;
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 10px;
-    background-color: rgba(0,0,0,0.7);
     border: 2px solid rgba(255,255,255,0.5);
     color: #fff;
     border-radius: 10px;
@@ -103,26 +95,24 @@ body,html{
     background-image: url(images/close.svg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
-    height: 100px;
-    width: 100px;
+    background-size:contain;
+    height: 50px;
+    width: 50px;
     background-color: rgba(0,0,0,0);
     border: none;
 }
 #menu #kind{
-    position: relative;
-    top: 100px;
+    padding-top: 60px;
 }
 
 #menu #targetfaces{
-    padding-top: 150px;
 }
 #menu #targetfaces button{
-    font-size: 35px;
+    font-size: 20px;
 }
 
 #menu figure{
-    font-size: 40px;
+    font-size: 20px;
     color: #fff;
     padding-top: 20px;
 }
@@ -136,13 +126,18 @@ body,html{
     list-style: none;
 }
 #menu  ul li button{
-    width: 200px;
-    height: 100px;
-    font-size: 50px;
-    background-color: rgba(0,0,0,0.4);
+    font-size: 25px;
     color: #fff;
     border: solid #fff 2px;
 }
 #menu ul#kind li button{
-    font-size: 30px;
+    font-size: 15px;
+}
+button{
+    min-width: 100px;
+    height: 50px;
+    background-color: rgba(0,0,0,0.4);
+}
+button.select{
+    background-color:rgba(255,255,255,0.5);
 }
