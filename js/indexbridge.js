@@ -22,8 +22,10 @@ var bridgeCtrl,vueApp
               scopesrc:"scope.html",
               kind:'compound',
               zoom:8,
-              targetFace:'cp50'
-              
+              targetFace:'cp50',
+              scopeWakuVis:true,
+              scopeDragPos:{x:0,y:0,z:0},
+              deb:false
           },
             computed:{
             scopewaku:function(){
@@ -74,8 +76,89 @@ var bridgeCtrl,vueApp
                             break;
                     }
                     
+                },
+                setSliderZoom(n){
+                    var min=1.2;
+                    var max=4;
+                    bridgeCtrl.setLensTimes((max-min)/100*n+min);
                 }
-            }});
+            },
+        mounted:function(){
+            var self=this;
+            var $sliderbase = $('#sliderset');
+            var $sliderbut = $('#sliderbutt');
+            var $gard = $('#gard');
+            var sliderArea = {
+                width:$sliderbase.width()-$sliderbut.width(),
+                height:$sliderbase.height(),
+                x:$sliderbase.offset().left,
+                y:$sliderbase.offset().top
+            };
+            var slideX=0;
+            var gardTouch = {x:0,y:0};
+            
+            
+            $sliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                slideX = ev.targetTouches[0].clientX;
+                $sliderbut.removeClass("ret");
+                self.scopeWakuVis=false;
+                self.setSliderZoom(0);
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=ev.targetTouches[0].clientX-slideX;
+                slideX=ev.targetTouches[0].clientX;
+                var tox = $sliderbut.position().left+trans;
+                if(tox<0){
+                    tox=0;
+                }else if(tox>sliderArea.width){
+                    tox=sliderArea.width;
+                }
+                $sliderbut.css('left',tox+"px");
+                self.setSliderZoom(tox/sliderArea.width*100);
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                $sliderbut.addClass("ret");
+                $sliderbut.css('left',"0px");
+                self.scopeWakuVis=true;
+                self.setZoom(self.zoom);
+                
+                self.scopeDragPos.x=0;
+                self.scopeDragPos.y=0;
+                self.scopeDragPos.z=0;
+            });
+            
+            $gard.on('touchstart',function(ev){ 
+                //self.deb=true;               
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+                gardTouch.x = ev.targetTouches[0].clientX;
+                gardTouch.y = ev.targetTouches[0].clientY;
+            }).on('touchmove',function(ev){ 
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+                var dist={};
+                //600pxで6deg
+                dist.x= ev.targetTouches[0].clientX-gardTouch.x;
+                dist.y= ev.targetTouches[0].clientY-gardTouch.y;
+                gardTouch.x=ev.targetTouches[0].clientX;
+                gardTouch.y=ev.targetTouches[0].clientY;
+                dist.x = dist.x/100;
+                dist.y = dist.y/100;
+                dist.z = 0;
+                self.scopeDragPos.x += dist.y;
+                self.scopeDragPos.y += dist.x;
+                self.scopeDragPos.z = 0;
+            }).on('touchend',function(ev){
+                //self.deb=false;
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+            })
+            
+        }});
     });
     function bridge(){
         this.baseframe;
@@ -134,6 +217,10 @@ var bridgeCtrl,vueApp
         }
         }
     bridge.prototype.linkRotation = function(obj){
+        if(!vueApp.scopeWakuVis){
+           obj = vueApp.scopeDragPos;
+            //$('#deb').text('x'+obj.x+';y:'+obj.y+';z:'+obj.x);
+        }
         if(this.scopeframe){
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }

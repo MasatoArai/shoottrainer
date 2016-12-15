@@ -1,11 +1,14 @@
 var scopeCtrl;
 (function(){
-    window.addEventListener("load",function(event){
+     document.addEventListener('DOMContentLoaded',function(event){
         scopeCtrl=new Ctrl();
+          scopeCtrl.cam.addEventListener('loaded',function(ev){ parent.bridgeCtrl.setIframe('#scopeframe');
+        });
+        
     });
     function Ctrl(){
         this.cam=document.querySelector('#scopecam');
-        parent.bridgeCtrl.setIframe('#scopeframe');
+      
         this.targetFaces = document.querySelectorAll('.targetface');
         this.arrows=[];
         this.$hitarrows = $('#hitarrows');
@@ -38,13 +41,16 @@ var scopeCtrl;
         var leng=10;
         var shaft = 0.8;
         var ro = this.cam.getAttribute("rotation");
+        /*
         var y = leng*Math.tan(ro.x*Math.PI/180);
         //var y=yl*Math.sin(ro.z*Math.PI/180);
         var x = -(leng*Math.tan(ro.y*Math.PI/180));
         //var x=xl*Math.sin(ro.z*Math.PI/180);
         var pos={x:x,y:y,z:leng};
         
-        this.arrows.push($('<a-circle color="#000" radius="0.003" position="'+x+' '+y+' '+-leng+'"><a-circle color="#00ff14" radius="0.002" position="0 0 0.001"></a-circle></a-circle>').appendTo(this.$hitarrows));
+        this.arrows.push($('<a-circle color="#000" radius="0.003" position="'+x+' '+y+' '+-leng+'"><a-circle color="#00ff14" radius="0.002" position="0 0 0.001"></a-circle></a-circle>').appendTo(this.$hitarrows));*/
+        
+        this.arrows.push($('<a-entity position="0 0 0" rotation="'+ro.x+' '+ro.y+' '+ro.z+'"><a-circle color="#000" radius="0.003" position="0 0 -10"><a-circle color="#00ff14" radius="0.002" position="0 0 0.001"></a-circle></a-circle></a-entity>').appendTo(this.$hitarrows));
     }
     Ctrl.prototype.clearShoot = function(){
         this.arrows.forEach(function(el,i,arr){

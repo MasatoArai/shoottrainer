@@ -14,14 +14,17 @@
     <body style="width:100%;height:100%;background-color:#ccc">
         <div id="base_wrapper">
         <iframe v-bind:src="basesrc" id="baseframe"></iframe>
-        <div id="scope" v-show="(kind=='compound')">
+        <div id="scope" v-show="(kind=='compound'||!scopeWakuVis)">
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
-        <div id="scopewaku" v-bind:style="scopewaku">
+        <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">
             </div>
             <div id="gard">
+                <!--<div id="deb" v-if="deb">
+                </div>-->
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-if="!showMenu" v-on:click="clearShoot">Clear</button>
+                <div id="sliderset"><div id="sliderbutt"></div></div>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>
