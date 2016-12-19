@@ -23,9 +23,9 @@
                 <!--<div id="deb" v-if="deb">
                 </div>-->
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
-                <button id="clearbut" v-if="!showMenu" v-on:click="clearShoot">Clear</button>
-                <div id="sliderset" v-if="!showMenu"><div id="sliderbutt"></div></div>
-                <button id="centerTrim" v-if="!showMenu" v-on:click="centerTrim()">[ ┼ ]</button>
+                <button id="clearbut" v-on:click="clearShoot">Clear</button>
+                <div id="sliderset"><div id="sliderbutt"></div></div>
+                <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>
