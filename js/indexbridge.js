@@ -50,6 +50,17 @@ var bridgeCtrl,vueApp
                     this.setScopeKind(this.kind);
                     this.setZoom(this.zoom)
                 },
+                centerTrim:function(){
+                    var camrotationObj = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation');
+                    var direct = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct');
+                    
+                    direct.y += degToRad(-camrotationObj.y);
+                    bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
+                    function degToRad(n){
+                        return n * Math.PI/180;
+                    }
+                    
+                },
                 clearShoot:function(){
                     bridgeCtrl.clearShoot();
                 },

@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no">
-
-
     <title>test demo</title>
     
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -26,7 +24,8 @@
                 </div>-->
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-if="!showMenu" v-on:click="clearShoot">Clear</button>
-                <div id="sliderset"><div id="sliderbutt"></div></div>
+                <div id="sliderset" v-if="!showMenu"><div id="sliderbutt"></div></div>
+                <button id="centerTrim" v-if="!showMenu" v-on:click="centerTrim()">[ ┼ ]</button>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>

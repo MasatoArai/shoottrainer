@@ -4,6 +4,19 @@ var baseVue
     var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;
         window.requestAnimationFrame = requestAnimationFrame;
     
+    
+AFRAME.registerComponent('direct', {
+　schema: { type: 'vec3' },
+
+　update: function () {
+　　var yawObject = this.el.components['look-controls'].yawObject;
+　　var data = this.data;
+　　//object3D.position.set(data.x, data.y, data.z);
+     yawObject.rotation.y = data.y;
+     console.log("data.y:"+data.y);
+　}
+});
+    
     document.addEventListener('DOMContentLoaded',function(event){
         baseCtrl = new BaseCtrl();
         baseCtrl.cam.addEventListener('loaded',function(ev){
