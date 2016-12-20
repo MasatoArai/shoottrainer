@@ -25,7 +25,8 @@ var bridgeCtrl,vueApp
               targetFace:'cp50',
               scopeWakuVis:true,
               scopeDragPos:{x:0,y:0,z:0},
-              deb:false
+              tsumamiTex:'>|<',
+              deb:true
           },
             computed:{
             scopewaku:function(){
@@ -167,8 +168,54 @@ var bridgeCtrl,vueApp
                 //self.deb=false;
                 if(self.scopeWakuVis)return;
                 ev.preventDefault();
-            })
+            });
             
+            
+            var $dragsliderbase = $('#dragSliderset');
+            var $dragsliderbut = $('#dragSliderbutt');
+            var dragsliderArea = {
+                width:$dragsliderbase.width()-$sliderbut.width(),
+                height:$dragsliderbase.height(),
+                x:$sliderbase.offset().left,
+                y:$sliderbase.offset().top
+            };
+            
+            var dragslideX=0;
+            var dragZero = dragsliderArea.width/2;
+            $dragsliderbut.css('left',dragZero+"px");
+            var dragMax = 0.00015;
+            
+            $dragsliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                dragslideX = ev.targetTouches[0].clientX;
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=ev.targetTouches[0].clientX-dragslideX;
+                dragslideX=ev.targetTouches[0].clientX;
+                var tox = $dragsliderbut.position().left+trans;
+                if(tox<0){
+                    tox=0;
+                }else if(tox>dragsliderArea.width){
+                    tox=dragsliderArea.width;
+                }
+                $dragsliderbut.css('left',tox+"px");
+                var diff = tox-dragZero;
+                diff = (Math.abs(diff)<1)?0:diff;
+                if(diff == 0){
+                    $dragsliderbut.text(">|<");
+                }else if(diff<0){
+                    $dragsliderbut.text(">| ");
+                }else if(diff>0){
+                    $dragsliderbut.text(" |<");
+                }
+                var draglength = -diff/dragZero*dragMax;
+                bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('dragging',draglength);
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+            });
         }});
     });
     function bridge(){
@@ -235,6 +282,8 @@ var bridgeCtrl,vueApp
         if(this.scopeframe){
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
+        
+        $("#deb").html(this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg);
     }
     bridge.prototype.setLensTimes = function(n){
         if(this.scopeframe){

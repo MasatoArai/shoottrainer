@@ -11,9 +11,20 @@ AFRAME.registerComponent('direct', {
 　update: function () {
 　　var yawObject = this.el.components['look-controls'].yawObject;
 　　var data = this.data;
+     var dragInteg = this.el.components['look-controls'].dragInteg;
 　　//object3D.position.set(data.x, data.y, data.z);
-     yawObject.rotation.y = data.y;
-     console.log("data.y:"+data.y);
+     yawObject.rotation.y = data.y+dragInteg;
+     
+   this.el.components['look-controls'].dragInteg=0;
+　}
+});
+        
+    
+AFRAME.registerComponent('dragging', {
+　schema: { type: 'number',default:0.0},
+　update: function () {
+     var data = this.data;
+     this.el.components['look-controls'].dragging = data;
 　}
 });
     

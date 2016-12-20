@@ -57932,6 +57932,8 @@ module.exports.Component = registerComponent('look-controls', {
     this.bindMethods();
       
       this.stabilizeCameraRotation = {x:[],y:[],z:[]};
+      this.dragging = 0;
+      this.dragInteg = 0;
 
     // Enable grab cursor class on canvas.
     function enableGrabCursor () { sceneEl.canvas.classList.add('a-grab-cursor'); }
@@ -58085,10 +58087,11 @@ module.exports.Component = registerComponent('look-controls', {
           directTo.x /= sep;
           directTo.y /= sep;
           directTo.z = this.stabilizeCameraRotation.z[0];
+          this.dragInteg += this.dragging;
           
         rotation = {
           x: directTo.x + radToDeg(pitchObject.rotation.x),
-          y: directTo.y + radToDeg(yawObject.rotation.y),
+          y: directTo.y + radToDeg(yawObject.rotation.y+this.dragInteg),
           z: directTo.z
         };
       } else if (!sceneEl.is('vr-mode') || isNullVector(hmdEuler) || !this.data.hmdEnabled) {
