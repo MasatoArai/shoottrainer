@@ -11,9 +11,8 @@ AFRAME.registerComponent('direct', {
 　update: function () {
 　　var yawObject = this.el.components['look-controls'].yawObject;
 　　var data = this.data;
-     var dragInteg = this.el.components['look-controls'].dragInteg;
 　　//object3D.position.set(data.x, data.y, data.z);
-     yawObject.rotation.y = data.y+dragInteg;
+     yawObject.rotation.y = data.y;
      
    this.el.components['look-controls'].dragInteg=0;
 　}

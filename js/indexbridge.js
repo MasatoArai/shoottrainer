@@ -26,7 +26,7 @@ var bridgeCtrl,vueApp
               scopeWakuVis:true,
               scopeDragPos:{x:0,y:0,z:0},
               tsumamiTex:'>|<',
-              deb:true
+              deb:false
           },
             computed:{
             scopewaku:function(){
@@ -54,8 +54,9 @@ var bridgeCtrl,vueApp
                 centerTrim:function(){
                     var camrotationObj = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation');
                     var direct = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct');
+                    var dragInteg = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg;
                     
-                    direct.y += degToRad(-camrotationObj.y);
+                    direct.y += degToRad(-camrotationObj.y)+dragInteg;
                     bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
                     function degToRad(n){
                         return n * Math.PI/180;
@@ -283,7 +284,7 @@ var bridgeCtrl,vueApp
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
         
-        $("#deb").html(this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg);
+        $("#deb").html('yaw.y:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>dragInteg:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg+'<br>direct.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct').y+'<br>camrota.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation').y);
     }
     bridge.prototype.setLensTimes = function(n){
         if(this.scopeframe){

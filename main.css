@@ -141,6 +141,10 @@ button.select{
     transform: translateX(-50%);
     height: 50px;
     width: 70vmin;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 120px;
 }
 @media screen and (orientation: landscape){
 #dragSliderset{
@@ -163,6 +167,8 @@ button.select{
     text-align: center;
     bottom: 0;
     font-size: 20px;
+    color: #000;
+    line-height: 20px
 }
 #menu{
     width: 100%;
@@ -219,11 +225,11 @@ button.select{
 }
 #deb{
     position: absolute;
-    top: 20px;
+    top: 70px;
     left: 50%;
     width: 50%;
-    transform: translate(-50%,-50%);
+    transform: translateX(-50%);
     color: #fff;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.8);
     font-size: 9px;
 }
