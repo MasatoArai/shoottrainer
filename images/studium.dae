@@ -2953,16 +2953,16 @@
     </library_effects>
     <library_images>
         <image id="ID8">
-            <init_from>studium/__Concrete_.jpg</init_from>
+            <init_from>studium/Concrete_.jpg</init_from>
         </image>
         <image id="ID37">
-            <init_from>studium/__Split_Face_Concrete_Block_.jpg</init_from>
+            <init_from>studium/Split_Face_Concrete_Block_.jpg</init_from>
         </image>
         <image id="ID56">
-            <init_from>studium/__Tile-small_ceramic_.jpg</init_from>
+            <init_from>studium/Tile-small_ceramic_.jpg</init_from>
         </image>
         <image id="ID100">
-            <init_from>studium/__Grass_.jpg</init_from>
+            <init_from>studium/Grass_.jpg</init_from>
         </image>
         <image id="ID410">
             <init_from>studium/FITA.jpg</init_from>
