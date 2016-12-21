@@ -6,6 +6,15 @@ var scopeCtrl;
         });
         
     });
+    
+AFRAME.registerComponent('stabilize', {
+　schema: { type: 'int',default:1},
+　update: function () {
+     var data = this.data;
+     data = data<=0?1:data;
+     this.el.components['look-controls'].stabilizeRange = data;
+　}   
+});
     function Ctrl(){
         this.cam=document.querySelector('#scopecam');
       

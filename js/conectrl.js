@@ -27,6 +27,15 @@ AFRAME.registerComponent('dragging', {
 　}
 });
     
+AFRAME.registerComponent('stabilize', {
+　schema: { type: 'int',default:1},
+　update: function () {
+     var data = this.data;
+     data = data<=0?1:data;
+     this.el.components['look-controls'].stabilizeRange = data;
+　}
+});
+    
     document.addEventListener('DOMContentLoaded',function(event){
         baseCtrl = new BaseCtrl();
         baseCtrl.cam.addEventListener('loaded',function(ev){

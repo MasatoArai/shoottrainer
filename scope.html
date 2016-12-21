@@ -11,18 +11,18 @@
         <a-scene vr-mode-ui="enabled:false">
             
   <a-assets>
-    <img id="sky" src="images/8922781654_454b6b6657_k.jpg">
       <img id="target50C" src="images/target.png">
       <img id="target70R" src="images/target10.png">
       <img id="target18I" src="images/threepoint.png">
+      <a-aset-item id="stadium" src="images/studium.dae"></a-aset-item>
   </a-assets>
             <a-image src="#target70R" position="0 1.6 -70" width="1.26" height="1.26" class="targetface"></a-image>
             
             <a-image src="#target50C" position="0 1.6 -50" width="0.5" height="0.5" class="targetface"></a-image>
             
             <a-image src="#target18I" position="0 1.6 -18" width="0.23" height="0.68" class="targetface"></a-image>
-            
-            <a-sky src="#sky"></a-sky>
+            <a-sky color = "#67a1ff"></a-sky>
+            <a-entity collada-model="#stadium" position="-21.99 0 33.63"></a-entity>
             
             <a-entity id="hitarrows" position="0 1.6 0">
                 

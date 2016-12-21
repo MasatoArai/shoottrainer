@@ -57932,6 +57932,7 @@ module.exports.Component = registerComponent('look-controls', {
     this.bindMethods();
       
       this.stabilizeCameraRotation = {x:[],y:[],z:[]};
+      this.stabilizeRange = 1;
       this.dragging = 0;
       this.dragInteg = 0;
 
@@ -58050,7 +58051,7 @@ module.exports.Component = registerComponent('look-controls', {
       hmdEuler.setFromQuaternion(hmdQuaternion, 'YXZ');
       if (isMobile) {
         // In mobile we allow camera rotation with touch events and sensors
-         var bufferTime = 30;
+         var bufferTime = this.stabilizeRange;
           
          this.stabilizeCameraRotation.x.unshift(radToDeg(hmdEuler.x));
          this.stabilizeCameraRotation.y.unshift(radToDeg(hmdEuler.y));
