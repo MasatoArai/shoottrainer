@@ -72,6 +72,14 @@ button.select{
     background-position: center;
 }
 
+#scopering{
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
 #gard{
     position: absolute;
     top: 0;
@@ -109,27 +117,16 @@ button.select{
 }
 #sliderset{
     position: absolute;
-    height: 42px;
-    width:50vmin;
     border: inset 2px #ccc;
-    background-color: rgba(0,0,0,0.5);
-    bottom: 20px;
-    left: 20px;
+    background-color: rgba(0,0,0,0.3);
     box-sizing: border-box;
 }
 #sliderset div{
-    height: 40px;
-    width: 80px;
-    min-width: 80px;
     background-color: #fff;
     box-sizing: border-box;
     border:1px #fff outset;
     position: absolute;
-    top: 0;
     left: 0;
-}
-#sliderset div.ret{
-    transition: left 0.3s cubic-bezier(.01, .56, .25, 1) 0s;
 }
 #dragSliderset{
     background-image:url('data:image/svg+xml;utf8,<svg width="50" height="30" xmlns="http://www.w3.org/2000/svg"><g><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="25.8125" y1="13.54159" x2="25.8125" y2="0.03935" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/><line fill="none" stroke-width="1.5" x1="32.06246" y1="8.79161" x2="32.06246" y2="0.03935" id="svg_4" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="38.31243" y1="8.79161" x2="38.31243" y2="0.03935" id="svg_5" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="44.81239" y1="8.79161" x2="44.81239" y2="0.03935" id="svg_6" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="19.43753" y1="8.79161" x2="19.43753" y2="0.03935" id="svg_11" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="6.9376" y1="8.79161" x2="6.9376" y2="0.03935" id="svg_13" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="13.43757" y1="8.79161" x2="13.43757" y2="0.03935" id="svg_14" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="0.68763" y1="13.54159" x2="0.68763" y2="0.03935" id="svg_15" stroke-linejoin="undefined" stroke-linecap="undefined"/></g></svg>');
@@ -147,11 +144,60 @@ button.select{
     line-height: 120px;
 }
 @media screen and (orientation: landscape){
+#sliderset{
+    width: 42px;
+    height:50vmin;
+    bottom: 20px;
+    left: 40px;
+}   
+#sliderset div{
+    width: 40px;
+    height: 80px;
+    min-height: 80px;
+    background-color: rgba(255,255,255,0.8);
+    top: calc(50vmin - 80px);
+}
+    
+#sliderset div.ret{
+    transition:top 0.3s cubic-bezier(.01, .56, .25, 1) 0s;
+    top: calc(50vmin - 80px);
+}
 #dragSliderset{
-    top: 10px;
+    bottom: 20px;
     }
 }
+
+#shootbut{
+    position: absolute;
+    display: block;
+    right: 20px;
+    bottom: 27%;
+    width: 16vmin;
+    height: 16vmin;
+    border: 4px solid #fff;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 50%;
+}
 @media screen and (orientation: portrait){
+#sliderset{
+    height: 42px;
+    width:50vmin;
+    bottom: 20px;
+    left: 20px;
+}
+    
+#sliderset div{
+    height: 40px;
+    width: 80px;
+    min-width: 80px;
+    background-color: #fff;
+    top: 0;
+}
+    
+#sliderset div.ret{
+    transition: left 0.3s cubic-bezier(.01, .56, .25, 1) 0s;
+    left: 0px;
+}
 #dragSliderset{
     bottom: 100px;
     }
@@ -204,7 +250,7 @@ button.select{
 #menu figure{
     font-size: 20px;
     color: #fff;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 #menu figure figcaption{
     text-align: center;
@@ -219,6 +265,7 @@ button.select{
     font-size: 25px;
     color: #fff;
     border: solid #fff 2px;
+    height: 40px
 }
 #menu ul#kind li button{
     font-size: 15px;
@@ -228,6 +275,7 @@ button.select{
     top: 70px;
     left: 50%;
     width: 50%;
+    min-height: 30%;
     transform: translateX(-50%);
     color: #fff;
     background-color: rgba(0,0,0,0.8);

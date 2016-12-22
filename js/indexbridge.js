@@ -1,9 +1,40 @@
+/*--------------------------------------------------------------------------*
+ *  
+ *  binding dblTap event for jQuery
+ *  
+ *  MIT-style license. 
+ *  
+ *  2010 Kazuma Nishihata 
+ *  http://blog.webcreativepark.net/2010/09/08-204058.html
+ *  
+ *--------------------------------------------------------------------------*/
+jQuery.event.special.dblTap = {
+	setup : (function(){
+		var flag = false;
+		return function(){
+			$(this).click(function(){
+				if(flag){
+					$(this).trigger("dblTap");
+					flag = false;
+				}else{
+					flag = true;
+				}
+				setTimeout(function(){
+					flag = false;
+				},jQuery.event.special.dblTap.delay);
+			})
+		}
+	})() , 
+	delay : 500
+}
+
 var bridgeCtrl,vueApp
 
 (function(){
     document.addEventListener('DOMContentLoaded',function(event){
         window.addEventListener('orientationchange',function(){
             bridgeCtrl.orientationChange();
+            vueApp.hitCheckSlider.setOrientation();
         });
         document.addEventListener('keydown',function(ev){
             var keycode = ev.keyCode;
@@ -24,8 +55,12 @@ var bridgeCtrl,vueApp
               zoom:8,
               targetFace:'cp50',
               scopeWakuVis:true,
+              scopeling:{backgroundImage:'url(images/ring.svg)'},
               scopeDragPos:{x:0,y:0,z:0},
               tsumamiTex:'>|<',
+              hitCheckSlider:{},
+              geoCorrectioner:{},
+              shootbut:true,
               deb:false
           },
             computed:{
@@ -97,125 +132,11 @@ var bridgeCtrl,vueApp
                 }
             },
         mounted:function(){
-            var self=this;
-            var $sliderbase = $('#sliderset');
-            var $sliderbut = $('#sliderbutt');
-            var $gard = $('#gard');
-            var sliderArea = {
-                width:$sliderbase.width()-$sliderbut.width(),
-                height:$sliderbase.height(),
-                x:$sliderbase.offset().left,
-                y:$sliderbase.offset().top
-            };
-            var slideX=0;
-            var gardTouch = {x:0,y:0};
+            this.hitCheckSlider = new HitCheckSlider(this);
+            this.geoCorrectioner = new GeoCorrectioner(this);
             
-            
-            $sliderbut.on('touchstart',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
-                slideX = ev.targetTouches[0].clientX;
-                $sliderbut.removeClass("ret");
-                self.scopeWakuVis=false;
-                self.setSliderZoom(0);
-            }).on('touchmove',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
-                var trans=ev.targetTouches[0].clientX-slideX;
-                slideX=ev.targetTouches[0].clientX;
-                var tox = $sliderbut.position().left+trans;
-                if(tox<0){
-                    tox=0;
-                }else if(tox>sliderArea.width){
-                    tox=sliderArea.width;
-                }
-                $sliderbut.css('left',tox+"px");
-                self.setSliderZoom(tox/sliderArea.width*100);
-            }).on('touchend',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
-                $sliderbut.addClass("ret");
-                $sliderbut.css('left',"0px");
-                self.scopeWakuVis=true;
-                self.setZoom(self.zoom);
-                
-                self.scopeDragPos.x=0;
-                self.scopeDragPos.y=0;
-                self.scopeDragPos.z=0;
-            });
-            
-            $gard.on('touchstart',function(ev){ 
-                //self.deb=true;               
-                if(self.scopeWakuVis)return;
-                ev.preventDefault();
-                gardTouch.x = ev.targetTouches[0].clientX;
-                gardTouch.y = ev.targetTouches[0].clientY;
-            }).on('touchmove',function(ev){ 
-                if(self.scopeWakuVis)return;
-                ev.preventDefault();
-                var dist={};
-                //600pxで6deg
-                dist.x= ev.targetTouches[0].clientX-gardTouch.x;
-                dist.y= ev.targetTouches[0].clientY-gardTouch.y;
-                gardTouch.x=ev.targetTouches[0].clientX;
-                gardTouch.y=ev.targetTouches[0].clientY;
-                dist.x = dist.x/100;
-                dist.y = dist.y/100;
-                dist.z = 0;
-                self.scopeDragPos.x += dist.y;
-                self.scopeDragPos.y += dist.x;
-                self.scopeDragPos.z = 0;
-            }).on('touchend',function(ev){
-                //self.deb=false;
-                if(self.scopeWakuVis)return;
-                ev.preventDefault();
-            });
-            
-            
-            var $dragsliderbase = $('#dragSliderset');
-            var $dragsliderbut = $('#dragSliderbutt');
-            var dragsliderArea = {
-                width:$dragsliderbase.width()-$sliderbut.width(),
-                height:$dragsliderbase.height(),
-                x:$sliderbase.offset().left,
-                y:$sliderbase.offset().top
-            };
-            
-            var dragslideX=0;
-            var dragZero = dragsliderArea.width/2;
-            $dragsliderbut.css('left',dragZero+"px");
-            var dragMax = 0.00015;
-            
-            $dragsliderbut.on('touchstart',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
-                dragslideX = ev.targetTouches[0].clientX;
-            }).on('touchmove',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
-                var trans=ev.targetTouches[0].clientX-dragslideX;
-                dragslideX=ev.targetTouches[0].clientX;
-                var tox = $dragsliderbut.position().left+trans;
-                if(tox<0){
-                    tox=0;
-                }else if(tox>dragsliderArea.width){
-                    tox=dragsliderArea.width;
-                }
-                $dragsliderbut.css('left',tox+"px");
-                var diff = tox-dragZero;
-                diff = (Math.abs(diff)<1)?0:diff;
-                if(diff == 0){
-                    $dragsliderbut.text(">|<");
-                }else if(diff<0){
-                    $dragsliderbut.text(">| ");
-                }else if(diff>0){
-                    $dragsliderbut.text(" |<");
-                }
-                var draglength = -diff/dragZero*dragMax;
-                bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('dragging',draglength);
-            }).on('touchend',function(ev){
-                ev.preventDefault();
-                ev.stopPropagation();
+            $('#shootbut').on('touchstart',function(){
+                bridgeCtrl.shoot();
             });
         }});
     });
@@ -235,8 +156,10 @@ var bridgeCtrl,vueApp
     bridge.prototype.orientationChange = function(){
             if(Math.abs(window.orientation)===90){
                 orientationDo(false);
+                //landscape
             }else{
                 orientationDo(true);
+                //portrait
             }
             function orientationDo(b){
             if(!this.baseframe)return;
@@ -284,7 +207,7 @@ var bridgeCtrl,vueApp
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
         
-        $("#deb").html('yaw.y:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>dragInteg:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg+'<br>direct.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct').y+'<br>camrota.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation').y);
+      /*  $("#deb").html('yaw.y:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>dragInteg:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg+'<br>direct.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct').y+'<br>camrota.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation').y);*/
     }
     bridge.prototype.setLensTimes = function(n){
         if(this.scopeframe){
@@ -297,4 +220,179 @@ var bridgeCtrl,vueApp
         }
     }
     
+    
+    function HitCheckSlider(vueObj){
+        this.position = '';
+        this.setOrientation();
+            var self=vueObj;
+            var my=this;
+            var $sliderbase = $('#sliderset');
+            var $sliderbut = $('#sliderbutt');
+            var $gard = $('#gard');
+            this.sliderArea = {
+                width:$sliderbase.width()-$sliderbut.width(),
+                height:$sliderbase.height()-$sliderbut.height()
+            };
+            var slideX = 0;
+            var slideY = 0;
+            var gardTouch = {x:0,y:0};
+            
+            
+            $sliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                slideX = ev.targetTouches[0].clientX;
+                slideY = ev.targetTouches[0].clientY;
+                $sliderbut.removeClass("ret");
+                self.scopeWakuVis=false;
+                self.setSliderZoom(0);
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=my.position=="portrait"?ev.targetTouches[0].clientX-slideX:ev.targetTouches[0].clientY-slideY;
+                slideX=ev.targetTouches[0].clientX;
+                slideY=ev.targetTouches[0].clientY;
+                //portrait;
+                if(my.position=="portrait"){
+                    var tox = $sliderbut.position().left+trans;
+                    if(tox<0){
+                        tox=0;
+                    }else if(tox>my.sliderArea.width){
+                        tox=my.sliderArea.width;
+                    }
+                    $sliderbut.css('left',tox+"px");
+                    var par = tox/my.sliderArea.width*100;
+                }else{
+                    //landscape;
+                    var toy = $sliderbut.position().top+trans;
+                    if(toy<0){
+                        toy=0;
+                    }else if(toy>my.sliderArea.height){
+                        toy=my.sliderArea.height;
+                    }
+                    $sliderbut.css('top',toy+"px");
+                    var par = (my.sliderArea.height-toy)/my.sliderArea.height*100;
+                }
+                
+                self.setSliderZoom(par);
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                $sliderbut.addClass("ret");
+                
+                $sliderbut.css('top',"");
+                $sliderbut.css('left',"");
+                
+                self.scopeWakuVis=true;
+                self.setZoom(self.zoom);
+                
+                self.scopeDragPos.x=0;
+                self.scopeDragPos.y=0;
+                self.scopeDragPos.z=0;
+            });
+            
+            $gard.on('touchstart',function(ev){ 
+                //self.deb=true;               
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+                gardTouch.x = ev.targetTouches[0].clientX;
+                gardTouch.y = ev.targetTouches[0].clientY;
+            }).on('touchmove',function(ev){ 
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+                var dist={};
+                //600pxで6deg
+                dist.x= ev.targetTouches[0].clientX-gardTouch.x;
+                dist.y= ev.targetTouches[0].clientY-gardTouch.y;
+                gardTouch.x=ev.targetTouches[0].clientX;
+                gardTouch.y=ev.targetTouches[0].clientY;
+                dist.x = dist.x/100;
+                dist.y = dist.y/100;
+                dist.z = 0;
+                self.scopeDragPos.x += dist.y;
+                self.scopeDragPos.y += dist.x;
+                self.scopeDragPos.z = 0;
+            }).on('touchend',function(ev){
+                //self.deb=false;
+                if(self.scopeWakuVis)return;
+                ev.preventDefault();
+            });
+    }
+    HitCheckSlider.prototype.setOrientation = function(){
+            var $sliderbase = $('#sliderset');
+            var $sliderbut = $('#sliderbutt');
+            this.sliderArea = {
+                width:$sliderbase.width()-$sliderbut.width(),
+                height:$sliderbase.height()-$sliderbut.height()
+            };
+        var self = this;
+            if(Math.abs(window.orientation)===90){
+                self.position = 'landscape';
+                //landscape
+            }else{
+                self.position = 'portrait';
+                //portrait
+            }
+    }
+    
+    function GeoCorrectioner(vueObj){
+        this.position=0;
+        var self = vueObj;
+            var $dragsliderbase = $('#dragSliderset');
+            var $dragsliderbut = $('#dragSliderbutt');
+            var dragsliderArea = {
+                width:$dragsliderbase.width()-$dragsliderbut.width(),
+                height:$dragsliderbase.height()
+            };
+            
+            var dragslideX=0;
+            var dragZero = dragsliderArea.width/2;
+            var dragMax = 0.00015;
+            setZero()
+            
+            $dragsliderbase.on('dblTap',function(){
+                setZero();
+            });
+            $dragsliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                dragslideX = ev.targetTouches[0].clientX;
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=ev.targetTouches[0].clientX-dragslideX;
+                dragslideX=ev.targetTouches[0].clientX;
+                var tox = $dragsliderbut.position().left+trans;
+                if(tox<0){
+                    tox=0;
+                }else if(tox>dragsliderArea.width){
+                    tox=dragsliderArea.width;
+                }
+                $dragsliderbut.css('left',tox+"px");
+                setPos(tox);
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+            });
+        function setZero(){
+            $dragsliderbut.css('left',dragZero+"px");
+            setPos(dragZero);
+        }
+        function setPos(tox){
+                var diff = tox-dragZero;
+                diff = (Math.abs(diff)<1)?0:diff;
+                if(diff == 0){
+                    $dragsliderbut.text(">|<");
+                }else if(diff<0){
+                    $dragsliderbut.text(">| ");
+                }else if(diff>0){
+                    $dragsliderbut.text(" |<");
+                }
+                var draglength = -diff/dragZero*dragMax;
+              
+            if(bridgeCtrl.baseframe){  
+              bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('dragging',draglength);
+            }
+        }
+    }
 })();

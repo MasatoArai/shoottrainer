@@ -18,6 +18,7 @@
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">
+            <div id="scopering" v-bind:style="scopeling" v-show="(kind=='compound')"></div>
             </div>
             <div id="gard">
                 <div id="deb" v-if="deb">
@@ -27,6 +28,7 @@
                 <div id="dragSliderset">Geomagnetic displacement correction<div id="dragSliderbutt">&gt;|&lt;</div></div>
                 <div id="sliderset"><div id="sliderbutt"></div></div>
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
+                <a id="shootbut" v-show="shootbut"></a>
             <div id="menu" v-if="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>
