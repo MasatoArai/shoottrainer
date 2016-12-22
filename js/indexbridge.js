@@ -35,6 +35,10 @@ var bridgeCtrl,vueApp
         window.addEventListener('orientationchange',function(){
             bridgeCtrl.orientationChange();
             vueApp.hitCheckSlider.setOrientation();
+            vueApp.getStrageData();
+        });
+        window.addEventListener('unload',function(){
+           vueApp.setStrageData(); 
         });
         document.addEventListener('keydown',function(ev){
             var keycode = ev.keyCode;
@@ -48,18 +52,28 @@ var bridgeCtrl,vueApp
         vueApp = new Vue({
           el: '#base_wrapper',
           data: {
+              initObj:{
+                  kind:'compound',
+                  zoom:8,
+                  ring:false,
+                  stabilize:30,
+                  targetFace:'cp50'
+              },
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
+              stabilize:30,
               kind:'compound',
               zoom:8,
               targetFace:'cp50',
               scopeWakuVis:true,
-              scopeling:{backgroundImage:'url(images/ring.svg)'},
+              scopering:{backgroundImage:'url(images/ring.svg)'},
+              ring:true,
               scopeDragPos:{x:0,y:0,z:0},
               tsumamiTex:'>|<',
               hitCheckSlider:{},
               geoCorrectioner:{},
+              stabilizeSlider:{},
               shootbut:true,
               deb:false
           },
@@ -82,9 +96,12 @@ var bridgeCtrl,vueApp
         },
             methods: {
                 initWorld:function(){
-                    this.setTargetFace(this.targetFace);
-                    this.setScopeKind(this.kind);
-                    this.setZoom(this.zoom)
+                    this.setTargetFace(this.initObj.targetFace);
+                    this.setScopeKind(this.initObj.kind);
+                    this.setScopeRing(this.initObj.ring);
+                    this.setZoom(this.initObj.zoom);
+                    this.setStabilize(this.initObj.stabilize);
+                    this.stabilizeSlider.setSlideBut(this.initObj.stabilize);
                 },
                 centerTrim:function(){
                     var camrotationObj = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation');
@@ -103,15 +120,26 @@ var bridgeCtrl,vueApp
                 },
                 setTargetFace:function(code){
                  this.targetFace=code;
+                 this.initObj.targetFace=code;
                  bridgeCtrl.baseframe.contentWindow.baseCtrl.setTarget(code);
                  bridgeCtrl.scopeframe.contentWindow.scopeCtrl.setTarget(code);
             },
                 setScopeKind:function(k){
                 this.kind=k;
+                this.initObj.kind=k;
                 
             },
+                setScopeRing:function(b){
+                    this.ring=b;
+                    this.initObj.ring=b;
+                },
+                setStabilize:function(n){
+                    this.stabilize = n;
+                    this.initObj.stabilize = n;  bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('stabilize',n);
+                },
                 setZoom:function(n){
                     this.zoom=n;
+                    this.initObj.zoom = n;
                     switch(n){
                         case 4:
                             bridgeCtrl.setLensTimes(1.3);
@@ -125,15 +153,31 @@ var bridgeCtrl,vueApp
                     }
                     
                 },
-                setSliderZoom(n){
+                setSliderZoom:function(n){
                     var min=1.2;
                     var max=4;
                     bridgeCtrl.setLensTimes((max-min)/100*n+min);
+                },
+                getStrageData:function(){
+                    var json = localStorage.getItem('initObj')
+                    if(json == null)return;
+                    var obj = $.parseJSON(json);
+                    this.initObj.kind = obj.kind;
+                    this.initObj.zoom = obj.zoom;
+                    this.initObj.ring = obj.ring;
+                    this.initObj.stabilize = obj.stabilize;
+                    this.initObj.targetFace = obj.targetFace;
+                },
+                setStrageData:function(){
+                    var json = JSON.stringify(this.initObj);
+                    localStorage.setItem('initObj',json);
                 }
             },
         mounted:function(){
+            this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
+            this.stabilizeSlider = new StabilizeSlider(this);
             
             $('#shootbut').on('touchstart',function(){
                 bridgeCtrl.shoot();
@@ -395,4 +439,83 @@ var bridgeCtrl,vueApp
             }
         }
     }
+    function StabilizeSlider(vueObj){
+        this.stabilizeStrength = 1;
+            this.min=1;
+            this.max=180;
+        var self = vueObj;
+            var my=this;
+            this.position = 'portrait';
+            var $sliderbase = $('#stabiSliderset');
+            var $sliderbut = $('#stabiSliderbutt');
+        
+            this.sliderArea = {
+                width:$sliderbase.width()-$sliderbut.width(),
+                height:$sliderbase.height()-$sliderbut.height()
+            };
+            var slideX = 0;
+            var slideY = 0;
+            this.par=1;
+        
+            $sliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                slideX = ev.targetTouches[0].clientX;
+                slideY = ev.targetTouches[0].clientY;
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=my.position=="portrait"?ev.targetTouches[0].clientX-slideX:ev.targetTouches[0].clientY-slideY;
+                slideX=ev.targetTouches[0].clientX;
+                slideY=ev.targetTouches[0].clientY;
+                //portrait;
+                if(my.position=="portrait"){
+                    var tox = $sliderbut.position().left+trans;
+                    if(tox<0){
+                        tox=0;
+                    }else if(tox>my.sliderArea.width){
+                        tox=my.sliderArea.width;
+                    }
+                    $sliderbut.css('left',tox+"px");
+                    my.par = tox/my.sliderArea.width;
+                }else{
+                    //landscape;
+                    var toy = $sliderbut.position().top+trans;
+                    if(toy<0){
+                        toy=0;
+                    }else if(toy>my.sliderArea.height){
+                        toy=my.sliderArea.height;
+                    }
+                    $sliderbut.css('top',toy+"px");
+                    my.par = (my.sliderArea.height-toy)/my.sliderArea.height;
+                }                
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                stabiNum(my.par);
+            });
+        function stabiNum(p){
+            var min=my.min;
+            var max=my.max;
+            var area=max-min;
+            var sep = Math.floor(area*p);
+            self.setStabilize(sep+min);
+        }
+    }
+    StabilizeSlider.prototype.setSlideBut=function(n){
+        var self = this;
+        function getPar(f){
+            var area=self.max-self.min;
+            return f/area;
+        }
+        var p=getPar(n);
+            var $sliderbut = $('#stabiSliderbutt');
+            if(this.position=="portrait"){
+                var tox = this.sliderArea.width*p;
+                        $sliderbut.css('left',tox+"px");
+            }else{
+                var toy = this.sliderArea.height*p;
+                        $sliderbut.css('top',toy+"px");
+            }
+        };
 })();
