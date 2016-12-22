@@ -128,8 +128,36 @@ button.select{
     position: absolute;
     left: 0;
 }
-#dragSliderset{
+.ruler{
     background-image:url('data:image/svg+xml;utf8,<svg width="50" height="30" xmlns="http://www.w3.org/2000/svg"><g><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="25.8125" y1="13.54159" x2="25.8125" y2="0.03935" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/><line fill="none" stroke-width="1.5" x1="32.06246" y1="8.79161" x2="32.06246" y2="0.03935" id="svg_4" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="38.31243" y1="8.79161" x2="38.31243" y2="0.03935" id="svg_5" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="44.81239" y1="8.79161" x2="44.81239" y2="0.03935" id="svg_6" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="19.43753" y1="8.79161" x2="19.43753" y2="0.03935" id="svg_11" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="6.9376" y1="8.79161" x2="6.9376" y2="0.03935" id="svg_13" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="13.43757" y1="8.79161" x2="13.43757" y2="0.03935" id="svg_14" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="0.68763" y1="13.54159" x2="0.68763" y2="0.03935" id="svg_15" stroke-linejoin="undefined" stroke-linecap="undefined"/></g></svg>');
+}
+#stabiSliderset{
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-color: rgba(0,0,0,0.3);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 70vmin;
+}
+
+#stabiSliderbutt{
+    height: 40px;
+    width: 80px;
+    min-width: 80px;
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px #fff outset;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    font-size: 20px;
+    color: #000;
+    line-height: 20px
+}
+#dragSliderset{
     background-repeat: repeat-x;
     background-position: center top;
     background-color: rgba(0,0,0,0.3);
@@ -142,6 +170,21 @@ button.select{
     text-align: center;
     font-size: 12px;
     line-height: 120px;
+}
+
+#dragSliderbutt{
+    height: 40px;
+    width: 80px;
+    min-width: 80px;
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px #fff outset;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    font-size: 20px;
+    color: #000;
+    line-height: 20px
 }
 @media screen and (orientation: landscape){
 #sliderset{
@@ -166,18 +209,6 @@ button.select{
     bottom: 20px;
     }
 }
-
-#shootbut{
-    position: absolute;
-    display: block;
-    right: 20px;
-    bottom: 27%;
-    width: 16vmin;
-    height: 16vmin;
-    border: 4px solid #fff;
-    background-color: rgba(255,255,255,0.8);
-    border-radius: 50%;
-}
 @media screen and (orientation: portrait){
 #sliderset{
     height: 42px;
@@ -201,6 +232,19 @@ button.select{
 #dragSliderset{
     bottom: 100px;
     }
+}
+
+
+#shootbut{
+    position: absolute;
+    display: block;
+    right: 20px;
+    bottom: 27%;
+    width: 16vmin;
+    height: 16vmin;
+    border: 4px solid #fff;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 50%;
 }
 #dragSliderbutt{
     height: 40px;
@@ -246,7 +290,6 @@ button.select{
 #menu #targetfaces button{
     font-size: 20px;
 }
-
 #menu figure{
     font-size: 20px;
     color: #fff;
@@ -254,14 +297,20 @@ button.select{
 }
 #menu figure figcaption{
     text-align: center;
-    padding: 5px;}
+    padding: 5px;
+}
 
-#menu  ul{
+#menu #setring{
+    padding-top: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+#menu ul{
     display: flex;
     justify-content: center;
     list-style: none;
 }
-#menu  ul li button{
+#menu ul li button{
     font-size: 25px;
     color: #fff;
     border: solid #fff 2px;
