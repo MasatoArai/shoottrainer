@@ -18,18 +18,18 @@
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">
-            <div id="scopering" v-bind:style="scopeling" v-show="(kind=='compound')"></div>
+            <div id="scopering" v-bind:style="scopering" v-show="(kind=='compound'&&initObj.ring)"></div>
             </div>
             <div id="gard">
                 <div id="deb" v-if="deb">
                 </div>
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-on:click="clearShoot">Clear</button>
-                <div id="dragSliderset">Geomagnetic displacement correction<div id="dragSliderbutt">&gt;|&lt;</div></div>
+                <div id="dragSliderset" class="ruler">Geomagnetic displacement correction<div id="dragSliderbutt">&gt;|&lt;</div></div>
                 <div id="sliderset"><div id="sliderbutt"></div></div>
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
                 <a id="shootbut" v-show="shootbut"></a>
-            <div id="menu" v-if="showMenu">
+            <div id="menu" v-show="showMenu">
                 <button id="menuclose" v-on:click="showMenu=false">
                 </button>
                     <ul id="kind">
@@ -74,6 +74,15 @@
                         8X</button>
                     </li>
                 </ul>
+                    <div id="setring">
+                        <input type="checkbox" id="ring" v-model="initObj.ring"><label for ="ring">リング表示</label>
+                    </div>
+                </figure>
+                <figure>
+                    <figcaption>
+                        スタビライズ強度:range[{{initObj.stabilize}}]
+                    </figcaption>
+                    <div id="stabiSliderset" class="ruler"><div id="stabiSliderbutt">|</div></div>
                 </figure>
                 </div>
             </div>
