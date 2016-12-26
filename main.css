@@ -139,7 +139,7 @@ button.select{
     left: 50%;
     transform: translateX(-50%);
     height: 50px;
-    width: 70vmin;
+    width: 300px;
 }
 
 #stabiSliderbutt{

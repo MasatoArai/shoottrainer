@@ -35,7 +35,7 @@ var bridgeCtrl,vueApp
         window.addEventListener('orientationchange',function(){
             bridgeCtrl.orientationChange();
             vueApp.hitCheckSlider.setOrientation();
-            vueApp.getStrageData();
+            vueApp.geoCorrectioner.changeOri();
         });
         window.addEventListener('unload',function(){
            vueApp.setStrageData(); 
@@ -382,16 +382,17 @@ var bridgeCtrl,vueApp
     function GeoCorrectioner(vueObj){
         this.position=0;
         var self = vueObj;
+        var me = this;
             var $dragsliderbase = $('#dragSliderset');
             var $dragsliderbut = $('#dragSliderbutt');
-            var dragsliderArea = {
+            this.dragsliderArea = {
                 width:$dragsliderbase.width()-$dragsliderbut.width(),
                 height:$dragsliderbase.height()
             };
             
             var dragslideX=0;
-            var dragZero = dragsliderArea.width/2;
-            var dragMax = 0.00015;
+            this.dragZero = this.dragsliderArea.width/2;
+            this.dragMax = 0.00015;
             setZero()
             
             $dragsliderbase.on('dblTap',function(){
@@ -409,8 +410,8 @@ var bridgeCtrl,vueApp
                 var tox = $dragsliderbut.position().left+trans;
                 if(tox<0){
                     tox=0;
-                }else if(tox>dragsliderArea.width){
-                    tox=dragsliderArea.width;
+                }else if(tox>me.dragsliderArea.width){
+                    tox=me.dragsliderArea.width;
                 }
                 $dragsliderbut.css('left',tox+"px");
                 setPos(tox);
@@ -419,11 +420,11 @@ var bridgeCtrl,vueApp
                 ev.stopPropagation();
             });
         function setZero(){
-            $dragsliderbut.css('left',dragZero+"px");
-            setPos(dragZero);
+            $dragsliderbut.css('left',me.dragZero+"px");
+            setPos(me.dragZero);
         }
         function setPos(tox){
-                var diff = tox-dragZero;
+                var diff = tox-me.dragZero;
                 diff = (Math.abs(diff)<1)?0:diff;
                 if(diff == 0){
                     $dragsliderbut.text(">|<");
@@ -432,12 +433,22 @@ var bridgeCtrl,vueApp
                 }else if(diff>0){
                     $dragsliderbut.text(" |<");
                 }
-                var draglength = -diff/dragZero*dragMax;
+                var draglength = -diff/me.dragZero*me.dragMax;
+            me.position = draglength;
               
-            if(bridgeCtrl.baseframe){  
-              bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('dragging',draglength);
+            if(bridgeCtrl.baseframe){    bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('dragging',draglength);
             }
         }
+    }
+    GeoCorrectioner.prototype.changeOri = function(){
+            var $dragsliderbase = $('#dragSliderset');
+            var $dragsliderbut = $('#dragSliderbutt');
+            this.dragsliderArea.width = $dragsliderbase.width()-$dragsliderbut.width();
+            this.dragsliderArea.height = $dragsliderbase.height();
+            this.dragZero = this.dragsliderArea.width/2
+            
+            var draglength = this.position/this.dragMax*this.dragZero;
+            $dragsliderbut.css('left',-draglength+this.dragZero+"px");
     }
     function StabilizeSlider(vueObj){
         this.stabilizeStrength = 1;

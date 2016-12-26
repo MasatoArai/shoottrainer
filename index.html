@@ -18,7 +18,7 @@
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">
-            <div id="scopering" v-bind:style="scopering" v-show="(kind=='compound'&&initObj.ring)"></div>
+            <div id="scopering" v-bind:style="scopering" v-show="(kind=='compound'&&ring)"></div>
             </div>
             <div id="gard">
                 <div id="deb" v-if="deb">
@@ -30,8 +30,10 @@
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
                 <a id="shootbut" v-show="shootbut"></a>
             <div id="menu" v-show="showMenu">
-                <button id="menuclose" v-on:click="showMenu=false">
+                <button id="menuclose" v-on:click="showMenu=false;setStrageData()">
                 </button>
+                
+                    <div style="height: 100%;overflow: auto;">
                     <ul id="kind">
                         <li>
                             <button v-on:click="setScopeKind('compound')" v-bind:class="{select:kind=='compound'}">Compound</button>
@@ -75,16 +77,17 @@
                     </li>
                 </ul>
                     <div id="setring">
-                        <input type="checkbox" id="ring" v-model="initObj.ring"><label for ="ring">リング表示</label>
+                        <input type="checkbox" id="ring" v-model="ring" v-on:change="setScopeRing((ring==true))"><label for ="ring">リング表示</label>
                     </div>
                 </figure>
                 <figure>
                     <figcaption>
-                        スタビライズ強度:range[{{initObj.stabilize}}]
+                        スタビライズ強度:range[{{stabilize}}]
                     </figcaption>
                     <div id="stabiSliderset" class="ruler"><div id="stabiSliderbutt">|</div></div>
                 </figure>
-                </div>
+                    </div>
+            </div>
             </div>
             
             </div>
