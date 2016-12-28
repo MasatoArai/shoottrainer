@@ -75,9 +75,15 @@ button.select{
 #scopering{
     width: 100%;
     height: 100%;
+}
+#scopepin{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-image: url(images/scopepin.png);
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 40%;
 }
 
 #gard{
@@ -131,6 +137,43 @@ button.select{
 .ruler{
     background-image:url('data:image/svg+xml;utf8,<svg width="50" height="30" xmlns="http://www.w3.org/2000/svg"><g><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="25.8125" y1="13.54159" x2="25.8125" y2="0.03935" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/><line fill="none" stroke-width="1.5" x1="32.06246" y1="8.79161" x2="32.06246" y2="0.03935" id="svg_4" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="38.31243" y1="8.79161" x2="38.31243" y2="0.03935" id="svg_5" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="44.81239" y1="8.79161" x2="44.81239" y2="0.03935" id="svg_6" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="19.43753" y1="8.79161" x2="19.43753" y2="0.03935" id="svg_11" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="6.9376" y1="8.79161" x2="6.9376" y2="0.03935" id="svg_13" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="13.43757" y1="8.79161" x2="13.43757" y2="0.03935" id="svg_14" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="0.68763" y1="13.54159" x2="0.68763" y2="0.03935" id="svg_15" stroke-linejoin="undefined" stroke-linecap="undefined"/></g></svg>');
 }
+#radiussliderbase{
+    position: absolute;
+    top: -80px;
+    background-color: rgba(0,0,0,0.8);
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#radiusSliderset{
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-color: rgba(0,0,0,0.3);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 300px;
+}
+
+#radiusSliderbutt{
+    height: 40px;
+    width: 80px;
+    min-width: 80px;
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px #fff outset;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    font-size: 20px;
+    color: #000;
+    line-height: 20px
+}
+
 #stabiSliderset{
     background-repeat: repeat-x;
     background-position: center top;
@@ -263,7 +306,7 @@ button.select{
 #menu{
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.8);
     position: absolute;
     top: 0;
     left: 0;
@@ -274,7 +317,7 @@ button.select{
     left: 10px;
     background-image: url(images/close.svg);
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: left center;
     background-size:contain;
     height: 50px;
     width: 50px;
@@ -298,6 +341,7 @@ button.select{
 #menu figure figcaption{
     text-align: center;
     padding: 5px;
+    font-size: 17px;
 }
 
 #menu #setring{
@@ -319,6 +363,115 @@ button.select{
 #menu ul#kind li button{
     font-size: 15px;
 }
+#menu #scopeToggles li{
+    text-align: center;
+}
+#menu .togglebase{
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    background-color: #b4b4b4;
+    border-radius: 20px;
+    padding-left: 40px;
+    position: relative;
+    transition:background-color 0.3s ease 0s;
+}
+#menu .togglebase.active{
+    background-color: #ff9242;
+}
+#menu .togglebase .togglenob{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    left: 50%;
+    transition:left 0.3s ease 0s;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.23);
+}
+
+#menu .togglebase.active .togglenob{
+    left: 0;
+}
+
+#menu #typetoggle.togglebase{
+    background-color: #ff9242;
+    vertical-align: middle;
+}
+#menu #typetoggle.togglebase.active{
+    background-color:#ff9242;
+}
+#menu #scopeToggles{
+    padding-top: 20px;
+}
+#menu #ringOrDot{
+    text-align: center;
+    padding: 20px 0 0;
+}
+#menu #colorchip{
+    text-align: center;
+    padding: 20px 0 0;
+}
+#menu #colorchip a{
+    display: inline-block;
+    margin: 0 8px;
+    height: 40px;
+    width: 40px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    transition: all 0.5s ease 0s;
+}
+
+#menu #colorchip a.active{
+    border: 4px solid #fff;
+    border-radius: 0px;
+}
+
+#menu #colorchip a.orange{
+    background-color: #ff9242
+}
+#menu #colorchip a.yellow{
+    background-color: #e2ff42
+}
+#menu #colorchip a.green{
+    background-color: #51ff42
+}
+#menu #colorchip a.black{
+    background-color: #464646
+}
+#menu #colorchip a.frost{
+    background-color: #f4fcff
+}
+#menu #radius{
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+#menu #radius input[type=number]{
+    width: 80px;
+    height: 30px;
+    font-size: 30px;
+    text-align: center;
+    margin: 10px;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+
+#menu #radius input[type=number].active{
+    background-color: #e2ff42;
+}
+#menu #presvg{
+    width: 300px;
+    height: 200px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 10px
+}
+
 #deb{
     position: absolute;
     top: 70px;

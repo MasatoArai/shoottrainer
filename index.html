@@ -8,17 +8,19 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/vue.js"></script>
+    <script src="js/snap.svg.js"></script>
     <script src="js/indexbridge.js"></script>
     
     </head>
     <body style="width:100%;height:100%;background-color:#ccc">
         <div id="base_wrapper">
         <iframe v-bind:src="basesrc" id="baseframe"></iframe>
-        <div id="scope" v-show="(kind=='compound'||!scopeWakuVis)">
+        <div id="scope" v-show="(initObj.kind=='compound'||!scopeWakuVis)">
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
-        <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">
-            <div id="scopering" v-bind:style="scopering" v-show="(kind=='compound'&&ring)"></div>
+        <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">            
+                            <svg id="scopering" v-show="initObj.mark"><circle cx="50%" cy="50%" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+            <div id="scopepin" v-show="initObj.pin"></div>
             </div>
             <div id="gard">
                 <div id="deb" v-if="deb">
@@ -33,13 +35,13 @@
                 <button id="menuclose" v-on:click="showMenu=false;setStrageData()">
                 </button>
                 
-                    <div style="height: 100%;overflow: auto;">
+                    <div style="height: 100%;overflow: auto;padding-bottom: 100px;">
                     <ul id="kind">
                         <li>
-                            <button v-on:click="setScopeKind('compound')" v-bind:class="{select:kind=='compound'}">Compound</button>
+                            <button v-on:click="setScopeKind('compound')" v-bind:class="{select:initObj.kind=='compound'}">Compound</button>
                         </li>
                         <li>
-                            <button v-on:click="setScopeKind('recurv')" v-bind:class="{select:kind=='recurv'}">Recurve</button>
+                            <button v-on:click="setScopeKind('recurv')" v-bind:class="{select:initObj.kind=='recurv'}">Recurve</button>
                         </li>
                     </ul>
                 <figure id="targetfaces">
@@ -48,41 +50,88 @@
                     </figcaption>
                     <ul>
                         <li>
-                            <button v-on:click="setTargetFace('cp50')" v-bind:class="{select:targetFace=='cp50'}">CP50m</button>
+                            <button v-on:click="setTargetFace('cp50')" v-bind:class="{select:initObj.targetFace=='cp50'}">CP50m</button>
                         </li>
                         <li>
-                            <button v-on:click="setTargetFace('rc70')" v-bind:class="{select:targetFace=='rc70'}">RC70m</button>
+                            <button v-on:click="setTargetFace('rc70')" v-bind:class="{select:initObj.targetFace=='rc70'}">RC70m</button>
                         </li>
                         <li>
-                            <button v-on:click="setTargetFace('id18')" v-bind:class="{select:targetFace=='id18'}">18mRound</button>
+                            <button v-on:click="setTargetFace('id18')" v-bind:class="{select:initObj.targetFace=='id18'}">18mRound</button>
                         </li>
                 </ul>
                 </figure>
-                <figure v-if="kind=='compound'">
+                <figure v-show="initObj.kind=='compound'">
                     <figcaption>
                         レンズ倍率
                     </figcaption>
                 <ul>
                     <li>
-                    <button v-on:click="setZoom(4)" v-bind:class="{select:zoom==4}">
+                    <button v-on:click="setZoom(4)" v-bind:class="{select:initObj.zoom==4}">
                         4X</button>
                     </li>
                     <li>
-                    <button v-on:click="setZoom(6)" v-bind:class="{select:zoom==6}">
+                    <button v-on:click="setZoom(6)" v-bind:class="{select:initObj.zoom==6}">
                         6X</button>
                     </li>
                     <li>
-                    <button v-on:click="setZoom(8)" v-bind:class="{select:zoom==8}">
+                    <button v-on:click="setZoom(8)" v-bind:class="{select:initObj.zoom==8}">
                         8X</button>
                     </li>
                 </ul>
-                    <div id="setring">
-                        <input type="checkbox" id="ring" v-model="ring" v-on:change="setScopeRing((ring==true))"><label for ="ring">リング表示</label>
+                <ul id="scopeToggles">
+                    <li>
+                        <figcaption>
+                            リングドットシール
+                        </figcaption>
+                        <div id="marktoggle" class="togglebase" v-bind:class="{active:initObj.mark}" v-on:click="initObj.mark=!initObj.mark">
+                            <div class="togglenob"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <figcaption>
+                            ファイバーピン
+                        </figcaption>
+                        <div id="marktoggle" class="togglebase" v-bind:class="{active:initObj.pin}" v-on:click="initObj.pin = !initObj.pin">
+                            <div class="togglenob"></div>
+                        </div>
+                    </li>
+                </ul>
+                    <div v-show="initObj.mark">
+                    <div id="colorchip">
+                        <a class="orange" v-bind:class="{active:(initObj.markColor=='orange')}" v-on:click="initObj.markColor='orange'"></a>
+                        <a class="yellow" v-bind:class="{active:(initObj.markColor=='yellow')}" v-on:click="initObj.markColor='yellow'"></a>
+                        <a class="green" v-bind:class="{active:(initObj.markColor=='green')}" v-on:click="initObj.markColor='green'"></a>
+                        <a class="black" v-bind:class="{active:(initObj.markColor=='black')}" v-on:click="initObj.markColor='black'"></a>
+                        <a class="frost" v-bind:class="{active:(initObj.markColor=='frost')}" v-on:click="initObj.markColor='frost'"></a>
+                    </div>
+                        
+                    <div id="ringOrDot">
+                        Ring
+                    <div id="typetoggle" class="togglebase" v-bind:class="{active:initObj.ringOrDot}" v-on:click="initObj.ringOrDot=!initObj.ringOrDot">
+                        <div class="togglenob"></div>
+                    </div>
+                        Dot
+                    </div>
+                    <div id="radius">
+                        <div id="ringfigure" v-show="initObj.ringOrDot">
+                            内径<input type="number" v-bind:value="ring.naikei" v-bind:class="{active:sliderFor=='naikei'}" v-on:click="openSlider('naikei')" readonly>
+                            外径<input type="number" v-bind:value="ring.gaikei" v-bind:class="{active:sliderFor=='gaikei'}" v-on:click="openSlider('gaikei')" readonly>
+                        </div>
+                        <div id="dotfigure" v-show="!initObj.ringOrDot">
+                            直径<input type="number" v-bind:value="dot.chokkei" v-on:click="openSlider('dotkei')"  v-bind:class="{active:sliderFor=='dotkei'}" readonly>
+                        </div>
+                        <div id="radiussliderbase" v-show="sliderFor!=''">
+                            <div id="radiusSliderset" class="ruler"><div id="radiusSliderbutt">|</div></div>
+                        </div>
+                    </div>
+                        <div id="markpre">
+                            <svg id="presvg"><circle cx="150" cy="100" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+                        </div>
                     </div>
                 </figure>
                 <figure>
                     <figcaption>
-                        スタビライズ強度:range[{{stabilize}}]
+                        スタビライズ強度:range[{{initObj.stabilize}}]
                     </figcaption>
                     <div id="stabiSliderset" class="ruler"><div id="stabiSliderbutt">|</div></div>
                 </figure>

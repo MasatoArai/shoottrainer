@@ -55,50 +55,72 @@ var bridgeCtrl,vueApp
               initObj:{
                   kind:'compound',
                   zoom:8,
-                  ring:false,
+                  pin:true,
+                  mark:true,
+                  ringOrDot:true,
+                  markColor:'orange',
+                  ring:{r:20,lwidth:5},
+                  dot:{r:10},
                   stabilize:30,
                   targetFace:'cp50'
               },
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
-              stabilize:30,
-              kind:'compound',
-              zoom:8,
-              targetFace:'cp50',
               scopeWakuVis:true,
-              scopering:{backgroundImage:'url(images/ring.svg)'},
-              ring:true,
               scopeDragPos:{x:0,y:0,z:0},
               tsumamiTex:'>|<',
               hitCheckSlider:{},
               geoCorrectioner:{},
               stabilizeSlider:{},
+              radiusslider:{},
+              sliderFor:"",
               shootbut:true,
+              colors:{
+                  orange:'#ff9242',
+                  yellow:'#e2ff42',
+                  green:'#51ff42',
+                  black:'#000',
+                  frost:'rgba(244, 252, 255, 0.8)'
+              },
               deb:false
           },
             computed:{
-            scopewaku:function(){
-                var obj={};
-                switch(this.kind){
-                case 'compound':
-                obj={backgroundImage:"url(images/scope.png)",
-                    backgroundSize:'contain'};
-                break;
-                case 'recurv':
-                obj={backgroundImage:"url(images/recpin.png)",
-                    backgroundSize:'50%'};
-                break;
-            }
-                return obj;
-        }
-            
-        },
+                scopewaku:function(){
+                    var obj={};
+                    switch(this.initObj.kind){
+                    case 'compound':
+                    obj={backgroundImage:"url(images/scope.png)",
+                        backgroundSize:'contain'};
+                    break;
+                    case 'recurv':
+                    obj={backgroundImage:"url(images/recpin.png)",
+                        backgroundSize:'50%'};
+                    break;
+                }
+                    return obj;
+            },
+                ring:function(){
+                    var val = this.initObj.ring;
+                    var obj = {
+                    gaikei:val.r*2+val.lwidth,
+                    naikei:val.r*2-val.lwidth
+                    };
+                    return obj;
+            },
+                dot:function(){
+                    var val = this.initObj.dot;
+                    var obj = {
+                        chokkei:val.r*2
+                    }
+                    return obj;
+                }
+          },
             methods: {
                 initWorld:function(){
                     this.setTargetFace(this.initObj.targetFace);
                     this.setScopeKind(this.initObj.kind);
-                    this.setScopeRing(this.initObj.ring);
+                    this.setScopeMark(this.initObj.mark);
                     this.setZoom(this.initObj.zoom);
                     this.setStabilize(this.initObj.stabilize);
                     this.stabilizeSlider.setSlideBut(this.initObj.stabilize);
@@ -125,20 +147,16 @@ var bridgeCtrl,vueApp
                  bridgeCtrl.scopeframe.contentWindow.scopeCtrl.setTarget(code);
             },
                 setScopeKind:function(k){
-                this.kind=k;
                 this.initObj.kind=k;
                 
             },
-                setScopeRing:function(b){
-                    this.ring=b;
-                    this.initObj.ring=b;
+                setScopeMark:function(b){
+                    this.initObj.mark=b;
                 },
                 setStabilize:function(n){
-                    this.stabilize = n;
                     this.initObj.stabilize = n;  bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('stabilize',n);
                 },
                 setZoom:function(n){
-                    this.zoom=n;
                     this.initObj.zoom = n;
                     switch(n){
                         case 4:
@@ -162,15 +180,86 @@ var bridgeCtrl,vueApp
                     var json = localStorage.getItem('initObj')
                     if(json == null)return;
                     var obj = $.parseJSON(json);
-                    this.initObj.kind = obj.kind;
-                    this.initObj.zoom = obj.zoom;
-                    this.initObj.ring = obj.ring;
-                    this.initObj.stabilize = obj.stabilize;
-                    this.initObj.targetFace = obj.targetFace;
+                    var io = this.initObj;
+                    
+                    Object.keys(obj).forEach(function(key){
+                        var value = this[key];
+                        if(typeof io[key] !== typeof value){
+                            this[key] = io[key];
+                        }
+                    },obj);
+                    
+                    io.kind     = obj.kind||io.kind ;
+                    io.zoom     = obj.zoom||io.zoom;
+                    
+                    io.pin      = typeof obj.pin === void(0)?io.pin:obj.pin;
+                    io.mark     = typeof obj.mark === void(0)?io.mark:obj.mark;
+                    io.ringOrDot= typeof obj.ringOrDot === void(0)?io.ringOrDot:obj.ringOrDot;
+                    
+                    io.markColor= obj.markColor||io.markColor;
+                    io.dot      = obj.dot||io.dot;
+                    io.ring     = obj.ring||io.ring;
+                    io.stabilize = obj.stabilize||io.stabilize;
+                    io.targetFace = obj.targetFace||io.targetFace;
                 },
                 setStrageData:function(){
                     var json = JSON.stringify(this.initObj);
                     localStorage.setItem('initObj',json);
+                },
+                drawMark:function(t){
+                    if(t=="ring"){
+                    //this.svgDraw.clear();
+                        var r = this.initObj.ring.r;
+                        var R = this.initObj.ring.r+this.initObj.ring.lwidth/2;
+                    this.svgDraw.circle(R,R,r).attr({fill:"none",stroke:this.colors[this.initObj.markColor],strokeWidth:this.initObj.ring.lwidth});
+                    }
+                },
+                initSvgRing:function(){
+                    this.svgDraw.snap = Snap('#presvg');
+                    this.svgDraw.ring = this.svgDraw.snap.circle(150,100,100).attr({fill:'red',stroke:'red',strokeWidth:10});
+                },
+                openSlider:function(target){
+                    var self = this;
+                    if(this.sliderFor.length>0){
+                        this.sliderFor="";
+                        return;
+                    }
+                    // naikei
+                    if(target=="naikei"){
+                        this.sliderFor = "naikei";
+                        this.radiusslider.setNob(this.ring.naikei/2);
+                        this.radiusslider.setTarget(function(rr){
+                        var ring = self.initObj.ring;
+                            var R = ring.lwidth/2+ring.r;
+                            var lineWidth = R-rr;
+                            var r=rr+lineWidth/2;
+                            ring.r=r;
+                            ring.lwidth=lineWidth;
+                        });
+                        
+                    }
+                    // gaikei
+                    if(target=="gaikei"){
+                        this.sliderFor = "gaikei";
+                        this.radiusslider.setNob(this.ring.gaikei/2);
+                        this.radiusslider.setTarget(function(rr){
+                        var ring = self.initObj.ring;
+                            var inR = ring.r-ring.lwidth/2;
+                            var lineWidth = rr-inR;
+                            var r=rr-lineWidth/2;
+                            ring.r=r;
+                            ring.lwidth=lineWidth;
+                        });
+                    }
+                    // dotkei
+                    if(target=="dotkei"){
+                        this.sliderFor = "dotkei";
+                        this.radiusslider.setNob(this.dot.chokkei/2);
+                        this.radiusslider.setTarget(function(rr){
+                            var dot = self.initObj.dot;
+                            dot.r=rr;
+                        });
+                    }
                 }
             },
         mounted:function(){
@@ -178,6 +267,8 @@ var bridgeCtrl,vueApp
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
             this.stabilizeSlider = new StabilizeSlider(this);
+            this.radiusslider = new RadiusSlider(this);
+            //this.initSvgRing();
             
             $('#shootbut').on('touchstart',function(){
                 bridgeCtrl.shoot();
@@ -328,7 +419,7 @@ var bridgeCtrl,vueApp
                 $sliderbut.css('left',"");
                 
                 self.scopeWakuVis=true;
-                self.setZoom(self.zoom);
+                self.setZoom(self.initObj.zoom);
                 
                 self.scopeDragPos.x=0;
                 self.scopeDragPos.y=0;
@@ -450,6 +541,77 @@ var bridgeCtrl,vueApp
             var draglength = this.position/this.dragMax*this.dragZero;
             $dragsliderbut.css('left',-draglength+this.dragZero+"px");
     }
+    function RadiusSlider(vueObj){
+        this.callback = function(){};
+            this.min=5;
+            this.max=100;
+        var self = vueObj;
+        var my=this;
+            var $sliderbase = $('#radiusSliderset');
+            var $sliderbut = $('#radiusSliderbutt');
+        
+            this.sliderArea = {
+                width:$sliderbase.width()-$sliderbut.width(),
+                height:$sliderbase.height()-$sliderbut.height()
+            };
+            var slideX = 0;
+            var slideY = 0;
+            this.par=1;
+        
+            $sliderbut.on('touchstart',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                slideX = ev.targetTouches[0].clientX;
+                slideY = ev.targetTouches[0].clientY;
+            }).on('touchmove',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                var trans=ev.targetTouches[0].clientX-slideX;
+                slideX=ev.targetTouches[0].clientX;
+                slideY=ev.targetTouches[0].clientY;
+                
+                    var tox = $sliderbut.position().left+trans;
+                    if(tox<0){
+                        tox=0;
+                    }else if(tox>my.sliderArea.width){
+                        tox=my.sliderArea.width;
+                    }
+                    $sliderbut.css('left',tox+"px");
+                    my.par = tox/my.sliderArea.width;
+                my.callback(getNum(my.par));  
+                
+            }).on('touchend',function(ev){
+                ev.preventDefault();
+                ev.stopPropagation();
+                //console.error(getNum(my.par));
+                self.sliderFor="";
+            });
+        
+        
+        function getNum(p){
+            var min=my.min;
+            var max=my.max;
+            var area=max-min;
+            var sep = Math.floor(area*p);
+            return sep+min;
+        }
+    }
+    RadiusSlider.prototype.setTarget = function(callback){
+        this.callback=callback;
+    };
+    RadiusSlider.prototype.setNob = function(n){
+            var $sliderbase = $('#radiusSliderset');
+            var $sliderbut = $('#radiusSliderbutt');
+        var self = this;
+        function getPar(f){
+            var area=self.max-self.min;
+            return (f-self.min)/area;
+        }
+        var p=getPar(n);
+                var tox = this.sliderArea.width*p;
+                        $sliderbut.css('left',tox+"px");
+    };
+    
     function StabilizeSlider(vueObj){
         this.stabilizeStrength = 1;
             this.min=1;
@@ -489,6 +651,7 @@ var bridgeCtrl,vueApp
                     }
                     $sliderbut.css('left',tox+"px");
                     my.par = tox/my.sliderArea.width;
+                stabiNum(my.par);
                 }else{
                     //landscape;
                     var toy = $sliderbut.position().top+trans;
@@ -499,11 +662,11 @@ var bridgeCtrl,vueApp
                     }
                     $sliderbut.css('top',toy+"px");
                     my.par = (my.sliderArea.height-toy)/my.sliderArea.height;
+                stabiNum(my.par);
                 }                
             }).on('touchend',function(ev){
                 ev.preventDefault();
                 ev.stopPropagation();
-                stabiNum(my.par);
             });
         function stabiNum(p){
             var min=my.min;
