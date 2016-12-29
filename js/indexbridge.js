@@ -43,8 +43,8 @@ var bridgeCtrl,vueApp
         document.addEventListener('keydown',function(ev){
             var keycode = ev.keyCode;
             if(keycode == 13){
-                if(bridgeCtrl){
-                    bridgeCtrl.shoot();
+                if(vueApp){
+                    vueApp.arrowShoot();
                 }
             }
         });
@@ -260,6 +260,10 @@ var bridgeCtrl,vueApp
                             dot.r=rr;
                         });
                     }
+                },
+                arrowShoot:function(){
+                    if(this.scopeWakuVis)return;
+                    bridgeCtrl.shoot();
                 }
             },
         mounted:function(){
@@ -271,7 +275,7 @@ var bridgeCtrl,vueApp
             //this.initSvgRing();
             
             $('#shootbut').on('touchstart',function(){
-                bridgeCtrl.shoot();
+                this.arrowShoot();
             });
         }});
     });
