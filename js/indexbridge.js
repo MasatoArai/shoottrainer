@@ -615,7 +615,7 @@ var bridgeCtrl,vueApp
     function StabilizeSlider(vueObj){
         this.stabilizeStrength = 1;
             this.min=1;
-            this.max=180;
+            this.max=90;
         var self = vueObj;
             var my=this;
             this.position = 'portrait';

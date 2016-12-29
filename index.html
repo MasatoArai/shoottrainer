@@ -124,7 +124,9 @@
                         </div>
                     </div>
                         <div id="markpre">
-                            <svg id="presvg"><circle cx="150" cy="100" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+                            <svg id="presvg">
+                                <circle cx="150" cy="100" r="110" fill="none" stroke="#000" strokeWidth="2"></circle>
+                                <circle cx="150" cy="100" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
                         </div>
                     </div>
                 </figure>
