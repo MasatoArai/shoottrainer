@@ -449,18 +449,21 @@ button.select{
     position: relative;
 }
 
-#menu #radius input[type=number]{
+#menu span.number{
+    display: inline-block;
     width: 80px;
     height: 30px;
     font-size: 30px;
     text-align: center;
     margin: 10px;
     vertical-align: middle;
-    border-radius: 10px;
+    border-bottom: 2px solid #fff;
+    transition: background 0.4s ease 0s;
 }
 
-#menu #radius input[type=number].active{
+#menu span.number.active{
     background-color: #e2ff42;
+    color: #000;
 }
 #menu #presvg{
     width: 300px;

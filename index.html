@@ -113,11 +113,11 @@
                     </div>
                     <div id="radius">
                         <div id="ringfigure" v-show="initObj.ringOrDot">
-                            内径<input type="number" v-bind:value="ring.naikei" v-bind:class="{active:sliderFor=='naikei'}" v-on:click="openSlider('naikei')" readonly>
-                            外径<input type="number" v-bind:value="ring.gaikei" v-bind:class="{active:sliderFor=='gaikei'}" v-on:click="openSlider('gaikei')" readonly>
+                            内径<span class="number" v-text="ring.naikei" v-bind:class="{active:sliderFor=='naikei'}" v-on:click="openSlider('naikei')"></span>
+                            外径<span class="number" v-text="ring.gaikei" v-bind:class="{active:sliderFor=='gaikei'}" v-on:click="openSlider('gaikei')"></span>
                         </div>
                         <div id="dotfigure" v-show="!initObj.ringOrDot">
-                            直径<input type="number" v-bind:value="dot.chokkei" v-on:click="openSlider('dotkei')"  v-bind:class="{active:sliderFor=='dotkei'}" readonly>
+                            直径<span class="number" v-text="dot.chokkei" v-on:click="openSlider('dotkei')"  v-bind:class="{active:sliderFor=='dotkei'}"></span>
                         </div>
                         <div id="radiussliderbase" v-show="sliderFor!=''">
                             <div id="radiusSliderset" class="ruler"><div id="radiusSliderbutt">|</div></div>
@@ -132,7 +132,7 @@
                 </figure>
                 <figure>
                     <figcaption>
-                        スタビライズ強度:range[{{initObj.stabilize}}]
+                        スタビライズ強度:range<span class="number" v-text="initObj.stabilize"></span>
                     </figcaption>
                     <div id="stabiSliderset" class="ruler"><div id="stabiSliderbutt">|</div></div>
                 </figure>
