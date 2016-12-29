@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/vue.js"></script>
-    <script src="js/snap.svg.js"></script>
+    <script src="js/snap.svg.js"></script
     <script src="js/indexbridge.js"></script>
     
     </head>
@@ -19,8 +19,8 @@
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">            
-                            <svg id="scopering" v-show="initObj.mark"><circle cx="50%" cy="50%" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
-            <div id="scopepin" v-show="initObj.pin"></div>
+                            <svg id="scopering" v-show="initObj.mark&&initObj.kind=='compound'"><circle cx="50%" cy="50%" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+            <div id="scopepin" v-show="initObj.pin&&initObj.kind=='compound'"></div>
             </div>
             <div id="gard">
                 <div id="deb" v-if="deb">
