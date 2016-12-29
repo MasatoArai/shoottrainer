@@ -1,0 +1,111 @@
+@font-face
+{
+    font-family: "MotoyaLmaru";
+    src: local("モトヤLマルベリ3等幅"),url("MTLmr3m.woff") format('woff');
+    unicode-range: U+0080-FFFF;
+}
+@font-face
+{
+    font-family: "robo";
+    src: url("Roboto-Thin.woff") format('woff');
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 100;
+    src: local("Roboto Thin"),url("Roboto-Thin.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 100;
+    src: local("Roboto Thin Italic"),url("Roboto-ThinItalic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    src: local("Roboto Light"),url("Roboto-Light.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 300;
+    src: local("Roboto Light Italic"),url("Roboto-LightItalic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto Regular"),url("Roboto-Regular.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 400;
+    src: local("Roboto Italic"),url("Roboto-Italic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    src: local("Roboto Medium"),url("Roboto-Medium.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 500;
+    src: local("Roboto Medium Italic"),url("Roboto-MediumItalic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    src: local("Roboto Bold"),url("Roboto-Bold.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 700;
+    src: local("Roboto Bold Italic"),url("Roboto-BoldItalic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    src: local("Roboto Black"),url("Roboto-Black.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+@font-face
+{
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 900;
+    src: local("Roboto Black Italic"),url("Roboto-BlackItalic.woff") format('woff');
+    unicode-range: U+0000-007F;
+}
+
+body,td,th,.page,.button {
+    font-family: Roboto,"MotoyaLMaru"
+}
