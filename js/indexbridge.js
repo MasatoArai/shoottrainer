@@ -262,7 +262,7 @@ var bridgeCtrl,vueApp
                     }
                 },
                 arrowShoot:function(){
-                    if(this.scopeWakuVis)return;
+                    if(!this.scopeWakuVis)return;
                     bridgeCtrl.shoot();
                 }
             },
