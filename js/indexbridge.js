@@ -267,6 +267,7 @@ var bridgeCtrl,vueApp
                 }
             },
         mounted:function(){
+            var self = this;
             this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
@@ -275,7 +276,7 @@ var bridgeCtrl,vueApp
             //this.initSvgRing();
             
             $('#shootbut').on('touchstart',function(){
-                this.arrowShoot();
+                self.arrowShoot();
             });
         }});
     });
