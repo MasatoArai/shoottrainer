@@ -83,7 +83,8 @@ var bridgeCtrl,vueApp
                   black:'#000',
                   frost:'rgba(244, 252, 255, 0.8)'
               },
-              deb:false
+              deb:false,
+              debtext:""
           },
             computed:{
                 scopewaku:function(){

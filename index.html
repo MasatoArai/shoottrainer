@@ -23,7 +23,7 @@
             <div id="scopepin" v-show="initObj.pin&&initObj.kind=='compound'"></div>
             </div>
             <div id="gard">
-                <div id="deb" v-if="deb">
+                <div id="deb" v-if="deb" v-html="debtext">
                 </div>
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-on:click="clearShoot">Clear</button>

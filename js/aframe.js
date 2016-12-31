@@ -57932,6 +57932,8 @@ module.exports.Component = registerComponent('look-controls', {
     this.bindMethods();
       
       this.stabilizeCameraRotation = {x:[],y:[],z:[]};
+      this.stabilizeCameraRotationYtime = [];
+      this.rotationTime = 0;
       this.stabilizeRange = 1;
       this.dragging = 0;
       this.dragInteg = 0;
@@ -58056,10 +58058,23 @@ module.exports.Component = registerComponent('look-controls', {
          this.stabilizeCameraRotation.x.unshift(radToDeg(hmdEuler.x));
          this.stabilizeCameraRotation.y.unshift(radToDeg(hmdEuler.y));
          this.stabilizeCameraRotation.z.unshift(radToDeg(hmdEuler.z));
+        
+          var dif=this.stabilizeCameraRotation.y[0]-this.stabilizeCameraRotation.y[1];
+          if (!isNaN(dif)&&Math.abs(dif)>180&&Math.abs(dif)<360){
+              if(dif<0){
+                  this.rotationTime--;
+              }else{
+                  this.rotationTime++;
+              }
+          }
+          
+          this.stabilizeCameraRotationYtime.unshift(this.rotationTime);
+          
           if(this.stabilizeCameraRotation.x.length>bufferTime){
               this.stabilizeCameraRotation.x.pop();
               this.stabilizeCameraRotation.y.pop();
               this.stabilizeCameraRotation.z.pop();
+              this.stabilizeCameraRotationYtime.pop();
           }
           
           function getDriftDistance(){
@@ -58083,7 +58098,7 @@ module.exports.Component = registerComponent('look-controls', {
           }
           for(var i=0;i<sep;i++){
               directTo.x += this.stabilizeCameraRotation.x[i];
-              directTo.y += this.stabilizeCameraRotation.y[i];
+              directTo.y += this.stabilizeCameraRotation.y[i]-360*this.stabilizeCameraRotationYtime[i];
           }
           directTo.x /= sep;
           directTo.y /= sep;
