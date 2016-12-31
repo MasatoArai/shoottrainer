@@ -19,7 +19,8 @@
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">            
-                            <svg id="scopering" v-show="initObj.mark&&initObj.kind=='compound'"><circle cx="50%" cy="50%" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+                            <svg id="scopering" v-show="initObj.mark&&initObj.kind=='compound'"><circle cx="50%" cy="50%" v-bind:r="initObj.ring.r" fill="none" v-bind:stroke="initObj.onRing?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle>
+                                <circle cx="50%" cy="50%" v-bind:r="initObj.dot.r" v-bind:fill="initObj.onDot?colors[initObj.markColor]:'none'" stroke="none"></circle></svg>
             <div id="scopepin" v-show="initObj.pin&&initObj.kind=='compound'"></div>
             </div>
             <div id="gard">
@@ -105,29 +106,40 @@
                         <a class="frost" v-bind:class="{active:(initObj.markColor=='frost')}" v-on:click="initObj.markColor='frost'"></a>
                     </div>
                         
-                    <div id="ringOrDot">
-                        Ring
-                    <div id="typetoggle" class="togglebase" v-bind:class="{active:initObj.ringOrDot}" v-on:click="initObj.ringOrDot=!initObj.ringOrDot">
-                        <div class="togglenob"></div>
-                    </div>
-                        Dot
-                    </div>
-                    <div id="radius">
-                        <div id="ringfigure" v-show="initObj.ringOrDot">
+                    <div id="onRing">
+                        <figcaption>
+                            Ring
+                        </figcaption>
+                        <div id="ringtoggle" class="togglebase" v-bind:class="{active:initObj.onRing}" v-on:click="initObj.onRing=!initObj.onRing">
+                            <div class="togglenob"></div>
+                        </div>
+                        <div id="ringfigure" v-show="initObj.onRing">
                             内径<span class="number" v-text="ring.naikei" v-bind:class="{active:sliderFor=='naikei'}" v-on:click="openSlider('naikei')"></span>
                             外径<span class="number" v-text="ring.gaikei" v-bind:class="{active:sliderFor=='gaikei'}" v-on:click="openSlider('gaikei')"></span>
                         </div>
-                        <div id="dotfigure" v-show="!initObj.ringOrDot">
+                        <div id="ringRadiussliderbase" v-show="sliderFor=='naikei'||sliderFor=='gaikei'" class="radiussliderbase">
+                            <div class="ruler"><div class="radiusSliderbutt">|</div></div>
+                        </div>
+                    </div>                        
+                    <div id="onDot">
+                        <figcaption>
+                            Dot
+                        </figcaption>
+                        <div id="dottoggle" class="togglebase" v-bind:class="{active:initObj.onDot}" v-on:click="initObj.onDot=!initObj.onDot">
+                            <div class="togglenob"></div>
+                        </div>
+                        <div id="dotfigure" v-show="initObj.onDot">
                             直径<span class="number" v-text="dot.chokkei" v-on:click="openSlider('dotkei')"  v-bind:class="{active:sliderFor=='dotkei'}"></span>
                         </div>
-                        <div id="radiussliderbase" v-show="sliderFor!=''">
-                            <div id="radiusSliderset" class="ruler"><div id="radiusSliderbutt">|</div></div>
+                        <div id="dotRadiussliderbase" v-show="sliderFor=='dotkei'" class="radiussliderbase">
+                            <div class="ruler"><div class="radiusSliderbutt">|</div></div>
                         </div>
                     </div>
                         <div id="markpre">
                             <svg id="presvg">
                                 <circle cx="150" cy="100" r="110" fill="none" stroke="#000" strokeWidth="2"></circle>
-                                <circle cx="150" cy="100" v-bind:r="initObj.ringOrDot?initObj.ring.r:initObj.dot.r" v-bind:fill="(!initObj.ringOrDot)?colors[initObj.markColor]:'none'" v-bind:stroke="initObj.ringOrDot?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle></svg>
+                                <circle cx="150" cy="100" v-bind:r="initObj.ring.r" fill="none" v-bind:stroke="initObj.onRing?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle>
+                                <circle cx="150" cy="100" v-bind:r="initObj.dot.r" v-bind:fill="initObj.onDot?colors[initObj.markColor]:'none'" stroke="none"></circle></svg>
                         </div>
                     </div>
                 </figure>

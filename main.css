@@ -137,17 +137,17 @@ button.select{
 .ruler{
     background-image:url('data:image/svg+xml;utf8,<svg width="50" height="30" xmlns="http://www.w3.org/2000/svg"><g><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="25.8125" y1="13.54159" x2="25.8125" y2="0.03935" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/><line fill="none" stroke-width="1.5" x1="32.06246" y1="8.79161" x2="32.06246" y2="0.03935" id="svg_4" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="38.31243" y1="8.79161" x2="38.31243" y2="0.03935" id="svg_5" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="44.81239" y1="8.79161" x2="44.81239" y2="0.03935" id="svg_6" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="19.43753" y1="8.79161" x2="19.43753" y2="0.03935" id="svg_11" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="6.9376" y1="8.79161" x2="6.9376" y2="0.03935" id="svg_13" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="13.43757" y1="8.79161" x2="13.43757" y2="0.03935" id="svg_14" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="0.68763" y1="13.54159" x2="0.68763" y2="0.03935" id="svg_15" stroke-linejoin="undefined" stroke-linecap="undefined"/></g></svg>');
 }
-#radiussliderbase{
+.radiussliderbase{
     position: absolute;
-    top: -80px;
+    top: 8px;
     background-color: rgba(0,0,0,0.8);
-    padding: 20px;
-    border-radius: 20px;
+    padding: 0 5px 10px 5px;
+    border-radius: 10px;
     border: 2px solid #fff;
     left: 50%;
     transform: translateX(-50%);
 }
-#radiusSliderset{
+.radiussliderbase .ruler{
     background-repeat: repeat-x;
     background-position: center top;
     background-color: rgba(0,0,0,0.3);
@@ -158,7 +158,7 @@ button.select{
     width: 300px;
 }
 
-#radiusSliderbutt{
+.radiusSliderbutt{
     height: 40px;
     width: 80px;
     min-width: 80px;
@@ -405,9 +405,9 @@ button.select{
 #menu #scopeToggles{
     padding-top: 20px;
 }
-#menu #ringOrDot{
+#menu #onRing,#menu #onDot{
     text-align: center;
-    padding: 20px 0 0;
+    position: relative;
 }
 #menu #colorchip{
     text-align: center;
@@ -456,7 +456,6 @@ button.select{
     font-size: 25px;
     line-height: 30px;
     text-align: center;
-    margin: 10px;
     vertical-align: middle;
     border-bottom: 2px solid #fff;
     transition: background 0.4s ease 0s;
@@ -465,6 +464,9 @@ button.select{
 #menu span.number.active{
     background-color: #e2ff42;
     color: #000;
+}
+#menu #markpre{
+    padding-top: 5px;
 }
 #menu #presvg{
     width: 300px;

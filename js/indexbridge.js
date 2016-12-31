@@ -57,7 +57,8 @@ var bridgeCtrl,vueApp
                   zoom:8,
                   pin:true,
                   mark:true,
-                  ringOrDot:true,
+                  onRing:true,
+                  onDot:true,
                   markColor:'orange',
                   ring:{r:20,lwidth:5},
                   dot:{r:10},
@@ -73,7 +74,8 @@ var bridgeCtrl,vueApp
               hitCheckSlider:{},
               geoCorrectioner:{},
               stabilizeSlider:{},
-              radiusslider:{},
+              ringRadiusslider:{},
+              dotRadiusslider:{},
               sliderFor:"",
               shootbut:true,
               colors:{
@@ -228,8 +230,8 @@ var bridgeCtrl,vueApp
                     // naikei
                     if(target=="naikei"){
                         this.sliderFor = "naikei";
-                        this.radiusslider.setNob(this.ring.naikei/2);
-                        this.radiusslider.setTarget(function(rr){
+                        this.ringRadiusslider.setNob(this.ring.naikei/2);
+                        this.ringRadiusslider.setTarget(function(rr){
                         var ring = self.initObj.ring;
                             var R = ring.lwidth/2+ring.r;
                             var lineWidth = R-rr;
@@ -242,8 +244,8 @@ var bridgeCtrl,vueApp
                     // gaikei
                     if(target=="gaikei"){
                         this.sliderFor = "gaikei";
-                        this.radiusslider.setNob(this.ring.gaikei/2);
-                        this.radiusslider.setTarget(function(rr){
+                        this.ringRadiusslider.setNob(this.ring.gaikei/2);
+                        this.ringRadiusslider.setTarget(function(rr){
                         var ring = self.initObj.ring;
                             var inR = ring.r-ring.lwidth/2;
                             var lineWidth = rr-inR;
@@ -255,8 +257,8 @@ var bridgeCtrl,vueApp
                     // dotkei
                     if(target=="dotkei"){
                         this.sliderFor = "dotkei";
-                        this.radiusslider.setNob(this.dot.chokkei/2);
-                        this.radiusslider.setTarget(function(rr){
+                        this.dotRadiusslider.setNob(this.dot.chokkei/2);
+                        this.dotRadiusslider.setTarget(function(rr){
                             var dot = self.initObj.dot;
                             dot.r=rr;
                         });
@@ -273,7 +275,8 @@ var bridgeCtrl,vueApp
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
             this.stabilizeSlider = new StabilizeSlider(this);
-            this.radiusslider = new RadiusSlider(this);
+            this.ringRadiusslider = new RadiusSlider(this,"#ringRadiussliderbase");
+            this.dotRadiusslider = new RadiusSlider(this,"#dotRadiussliderbase");
             //this.initSvgRing();
             
             $('#shootbut').on('touchstart',function(){
@@ -547,14 +550,15 @@ var bridgeCtrl,vueApp
             var draglength = this.position/this.dragMax*this.dragZero;
             $dragsliderbut.css('left',-draglength+this.dragZero+"px");
     }
-    function RadiusSlider(vueObj){
+    function RadiusSlider(vueObj,targetset){
+        this.$targetSet = $(targetset);
         this.callback = function(){};
             this.min=5;
             this.max=100;
         var self = vueObj;
         var my=this;
-            var $sliderbase = $('#radiusSliderset');
-            var $sliderbut = $('#radiusSliderbutt');
+            var $sliderbase = this.$targetSet.find('.ruler');
+            var $sliderbut = this.$targetSet.find('.ruler div');
         
             this.sliderArea = {
                 width:$sliderbase.width()-$sliderbut.width(),
@@ -606,8 +610,8 @@ var bridgeCtrl,vueApp
         this.callback=callback;
     };
     RadiusSlider.prototype.setNob = function(n){
-            var $sliderbase = $('#radiusSliderset');
-            var $sliderbut = $('#radiusSliderbutt');
+            var $sliderbase = this.$targetSet.find('.ruler');
+            var $sliderbut = this.$targetSet.find('.ruler div');
         var self = this;
         function getPar(f){
             var area=self.max-self.min;
