@@ -15,14 +15,14 @@
     <body style="width:100%;height:100%;background-color:#ccc">
         <div id="base_wrapper">
         <iframe v-bind:src="basesrc" id="baseframe"></iframe>
-        <div id="scope" v-show="(initObj.kind=='compound'||!scopeWakuVis)">
+        <div id="scope" v-show="(initObj.kind=='compound'||!scopeWakuVis)" v-bind:style="{filter:initObj.tBokeh>0?'blur('+initObj.tBokeh+'px)':'none'}">
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">            
                             <svg id="scopering" v-show="initObj.mark&&initObj.kind=='compound'"><circle cx="50%" cy="50%" v-bind:r="initObj.ring.r" fill="none" v-bind:stroke="initObj.onRing?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle>
                                 <circle cx="50%" cy="50%" v-bind:r="initObj.dot.r" v-bind:fill="initObj.onDot?colors[initObj.markColor]:'none'" stroke="none"></circle></svg>
             <div id="scopepin" v-show="initObj.pin&&initObj.kind=='compound'"></div>
-            </div>
+        </div>
             <div id="gard">
                 <div id="deb" v-if="deb" v-html="debtext">
                 </div>
@@ -32,11 +32,8 @@
                 <div id="sliderset"><div id="sliderbutt"></div></div>
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
                 <a id="shootbut" v-show="shootbut"></a>
-            <div id="menu" v-show="showMenu">
-                <button id="menuclose" v-on:click="showMenu=false;setStrageData()">
-                </button>
-                
-                    <div style="height: 100%;overflow: auto;padding-bottom: 100px;">
+            <div id="menu" v-show="showMenu">                
+                    <div id="menubody">
                     <ul id="kind">
                         <li>
                             <button v-on:click="setScopeKind('compound')" v-bind:class="{select:initObj.kind=='compound'}">Compound</button>
@@ -135,21 +132,43 @@
                             <div class="ruler"><div class="radiusSliderbutt">|</div></div>
                         </div>
                     </div>
-                        <div id="markpre">
-                            <svg id="presvg">
-                                <circle cx="150" cy="100" r="110" fill="none" stroke="#000" strokeWidth="2"></circle>
-                                <circle cx="150" cy="100" v-bind:r="initObj.ring.r" fill="none" v-bind:stroke="initObj.onRing?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle>
-                                <circle cx="150" cy="100" v-bind:r="initObj.dot.r" v-bind:fill="initObj.onDot?colors[initObj.markColor]:'none'" stroke="none"></circle></svg>
-                        </div>
                     </div>
                 </figure>
                 <figure>
+                        <div id="markpre">
+                            <div id="prewrapper">
+                                <div id="pretarget" v-bind:style="{backgroundImage:'url('+pretarget+')',filter:'blur('+initObj.tBokeh+'px)'}">
+                                </div>
+
+                            <div id="prescopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis"> 
+                            <svg id="presvg" v-show="initObj.mark&&initObj.kind=='compound'">
+                                <circle cx="50%" cy="50%" v-bind:r="initObj.ring.r" fill="none" v-bind:stroke="initObj.onRing?colors[initObj.markColor]:'none'" v-bind:style="{strokeWidth: initObj.ring.lwidth}"></circle>
+                                <circle cx="50%" cy="50%" v-bind:r="initObj.dot.r" v-bind:fill="initObj.onDot?colors[initObj.markColor]:'none'" stroke="none"></circle></svg>           
+                                <div id="prescopepin" v-show="initObj.pin&&initObj.kind=='compound'"></div>
+                            </div>
+                            </div>
+                        </div>
+                    <figcaption>
+                        サイト明度
+                    </figcaption>
+                    <div id="brightSliderset" class="ruler sliderBase"><div id="brightSliderbutt" class="sliderButt">|</div></div>
+                    <figcaption>
+                        サイトボケ
+                    </figcaption>
+                    <div id="sbokehliderset" class="ruler sliderBase"><div id="sbokehSliderbutt" class="sliderButt">|</div></div>
+                    <figcaption>
+                        スコープ内ボケ
+                    </figcaption>
+                    <div id="tbokehliderset" class="ruler sliderBase"><div id="tbokehSliderbutt" class="sliderButt">|</div></div>
                     <figcaption>
                         スタビライズ強度:range<span class="number" v-text="initObj.stabilize"></span>
                     </figcaption>
-                    <div id="stabiSliderset" class="ruler"><div id="stabiSliderbutt">|</div></div>
-                </figure>
+                    <div id="stabiSliderset" class="ruler sliderBase"><div id="stabiSliderbutt" class="sliderButt">|</div></div>
+                    </figure>
                     </div>
+                
+                <button id="menuclose" v-on:click="showMenu=false;setStrageData()">
+                </button>
             </div>
             </div>
             

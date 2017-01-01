@@ -63,7 +63,10 @@ var bridgeCtrl,vueApp
                   ring:{r:20,lwidth:5},
                   dot:{r:10},
                   stabilize:30,
-                  targetFace:'cp50'
+                  targetFace:'cp50',
+                  brightness:100,
+                  sBokeh:0,
+                  tBokeh:0
               },
               showMenu:false,
               basesrc:"base.html",
@@ -76,6 +79,9 @@ var bridgeCtrl,vueApp
               stabilizeSlider:{},
               ringRadiusslider:{},
               dotRadiusslider:{},
+              brightslider:{},
+              sbokehslider:{},
+              tbokehslider:{},
               sliderFor:"",
               shootbut:true,
               colors:{
@@ -83,7 +89,7 @@ var bridgeCtrl,vueApp
                   yellow:'#e2ff42',
                   green:'#51ff42',
                   black:'#000',
-                  frost:'rgba(244, 252, 255, 0.8)'
+                  frost:'rgba(244, 252, 255, 0.95)'
               },
               deb:false,
               debtext:""
@@ -94,10 +100,11 @@ var bridgeCtrl,vueApp
                     switch(this.initObj.kind){
                     case 'compound':
                     obj={backgroundImage:"url(images/scope.png)",
-                        backgroundSize:'contain'};
+                        filter:'brightness('+(this.initObj.brightness/100)+')'+(this.initObj.sBokeh>0?'blur('+this.initObj.sBokeh+'px)':'')};
                     break;
                     case 'recurv':
                     obj={backgroundImage:"url(images/recpin.png)",
+                        filter:'brightness('+(this.initObj.brightness/100)+')'+(this.initObj.sBokeh>0?'blur('+this.initObj.sBokeh+'px)':''),
                         backgroundSize:'50%'};
                     break;
                 }
@@ -117,7 +124,23 @@ var bridgeCtrl,vueApp
                         chokkei:val.r*2
                     }
                     return obj;
-                }
+            },
+                pretarget:function(){
+                    var tar = this.initObj.targetFace;
+                    var src="";
+                    switch(tar){
+                        case 'cp50':
+                            src="images/target.png";
+                            break;
+                        case 'rc70':
+                            src="images/target10.png";
+                            break;
+                        case 'id18':
+                            src="images/threepoint.png";
+                            break;
+                    }
+                    return src;
+            }
           },
             methods: {
                 initWorld:function(){
@@ -127,6 +150,9 @@ var bridgeCtrl,vueApp
                     this.setZoom(this.initObj.zoom);
                     this.setStabilize(this.initObj.stabilize);
                     this.stabilizeSlider.setSlideBut(this.initObj.stabilize);
+                    this.brightslider.setSlideBut(this.initObj.brightness);
+                    this.sbokehslider.setSlideBut(this.initObj.sBokeh);
+                    this.tbokehslider.setSlideBut(this.initObj.tBokeh);
                 },
                 centerTrim:function(){
                     var camrotationObj = bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation');
@@ -204,6 +230,9 @@ var bridgeCtrl,vueApp
                     io.ring     = obj.ring||io.ring;
                     io.stabilize = obj.stabilize||io.stabilize;
                     io.targetFace = obj.targetFace||io.targetFace;
+                    io.brightness = obj.brightness||io.brightness;
+                    io.sBokeh = obj.sBokeh||io.sBokeh;
+                    io.tBokeh = obj.tBokeh||io.tBokeh;
                 },
                 setStrageData:function(){
                     var json = JSON.stringify(this.initObj);
@@ -274,7 +303,18 @@ var bridgeCtrl,vueApp
             this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
-            this.stabilizeSlider = new StabilizeSlider(this);
+            this.stabilizeSlider = new BasicSlider(this,'#stabiSliderset',1,90,function(n){
+                self.setStabilize(n);
+            });
+            this.brightslider = new BasicSlider(this,'#brightSliderset',0,100,function(n){
+                self.initObj.brightness = n;
+            });
+            this.sbokehslider = new BasicSlider(this,'#sbokehliderset',0,10,function(n){
+                self.initObj.sBokeh = n;
+            });
+            this.tbokehslider = new BasicSlider(this,'#tbokehliderset',0,10,function(n){
+                self.initObj.tBokeh = n;
+            });
             this.ringRadiusslider = new RadiusSlider(this,"#ringRadiussliderbase");
             this.dotRadiusslider = new RadiusSlider(this,"#dotRadiussliderbase");
             //this.initSvgRing();
@@ -622,25 +662,25 @@ var bridgeCtrl,vueApp
                         $sliderbut.css('left',tox+"px");
     };
     
-    function StabilizeSlider(vueObj){
-        this.stabilizeStrength = 1;
-            this.min=1;
-            this.max=90;
+    function BasicSlider(vueObj,tar,min,max,callback){
+            this.min=min;
+            this.max=max;
+        this.callback = callback;
         var self = vueObj;
             var my=this;
             this.position = 'portrait';
-            var $sliderbase = $('#stabiSliderset');
-            var $sliderbut = $('#stabiSliderbutt');
+            this.$sliderbase = $(tar);
+            this.$sliderbut = this.$sliderbase.find('.sliderButt');
         
             this.sliderArea = {
-                width:$sliderbase.width()-$sliderbut.width(),
-                height:$sliderbase.height()-$sliderbut.height()
+                width:this.$sliderbase.width()-this.$sliderbut.width(),
+                height:this.$sliderbase.height()-this.$sliderbut.height()
             };
             var slideX = 0;
             var slideY = 0;
             this.par=1;
         
-            $sliderbut.on('touchstart',function(ev){
+            this.$sliderbut.on('touchstart',function(ev){
                 ev.preventDefault();
                 ev.stopPropagation();
                 slideX = ev.targetTouches[0].clientX;
@@ -653,47 +693,48 @@ var bridgeCtrl,vueApp
                 slideY=ev.targetTouches[0].clientY;
                 //portrait;
                 if(my.position=="portrait"){
-                    var tox = $sliderbut.position().left+trans;
+                    var tox = my.$sliderbut.position().left+trans;
                     if(tox<0){
                         tox=0;
                     }else if(tox>my.sliderArea.width){
                         tox=my.sliderArea.width;
                     }
-                    $sliderbut.css('left',tox+"px");
+                    my.$sliderbut.css('left',tox+"px");
                     my.par = tox/my.sliderArea.width;
-                stabiNum(my.par);
+                my.callback(getNum(my.par));
                 }else{
                     //landscape;
-                    var toy = $sliderbut.position().top+trans;
+                    var toy = my.$sliderbut.position().top+trans;
                     if(toy<0){
                         toy=0;
                     }else if(toy>my.sliderArea.height){
                         toy=my.sliderArea.height;
                     }
-                    $sliderbut.css('top',toy+"px");
+                    my.$sliderbut.css('top',toy+"px");
                     my.par = (my.sliderArea.height-toy)/my.sliderArea.height;
-                stabiNum(my.par);
+                my.callback(getNum(my.par));
+                    
                 }                
             }).on('touchend',function(ev){
                 ev.preventDefault();
                 ev.stopPropagation();
             });
-        function stabiNum(p){
+        function getNum(p){
             var min=my.min;
             var max=my.max;
             var area=max-min;
             var sep = Math.floor(area*p);
-            self.setStabilize(sep+min);
+            return sep+min;
         }
     }
-    StabilizeSlider.prototype.setSlideBut=function(n){
+    BasicSlider.prototype.setSlideBut=function(n){
         var self = this;
         function getPar(f){
             var area=self.max-self.min;
             return f/area;
         }
-        var p=getPar(n);
-            var $sliderbut = $('#stabiSliderbutt');
+        var p=getPar(n-self.min);
+            var $sliderbut = this.$sliderbut;
             if(this.position=="portrait"){
                 var tox = this.sliderArea.width*p;
                         $sliderbut.css('left',tox+"px");

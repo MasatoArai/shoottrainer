@@ -175,18 +175,19 @@ button.select{
 }
 
 #stabiSliderset{
+}
+.sliderBase{
     background-repeat: repeat-x;
     background-position: center top;
     background-color: rgba(0,0,0,0.3);
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    height: 50px;
+    height: 43px;
     width: 300px;
 }
-
-#stabiSliderbutt{
-    height: 40px;
+.sliderButt{
+    height: 30px;
     width: 80px;
     min-width: 80px;
     background-color: #fff;
@@ -199,6 +200,9 @@ button.select{
     font-size: 20px;
     color: #000;
     line-height: 20px
+}
+
+#stabiSliderbutt{
 }
 #dragSliderset{
     background-repeat: repeat-x;
@@ -323,6 +327,12 @@ button.select{
     width: 50px;
     background-color: rgba(0,0,0,0);
     border: none;
+}
+#menu #menubody{
+    height: 100%;
+    overflow: auto;
+    overflow-scrolling: touch;
+    padding-bottom: 100px;
 }
 #menu #kind{
     padding-top: 60px;
@@ -468,14 +478,53 @@ button.select{
 #menu #markpre{
     padding-top: 5px;
 }
-#menu #presvg{
+#menu #prewrapper{
+    position: relative;
     width: 300px;
     height: 200px;
-    position: relative;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(255,255,255,0.5);
+    overflow: hidden;
     border-radius: 10px
+}
+#menu #pretarget{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width:70vmin;
+    height:100%;
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+#menu #prescopewaku{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width:70vmin;
+    height:100%;
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+
+#menu #prescopepin{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-image: url(images/scopepin.png);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#menu #presvg{
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 #deb{
