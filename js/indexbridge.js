@@ -100,7 +100,7 @@ var bridgeCtrl,vueApp
                     switch(this.initObj.kind){
                     case 'compound':
                     obj={backgroundImage:"url(images/scope.png)",
-                        filter:'brightness('+(this.initObj.brightness/100)+')'+(this.initObj.sBokeh>0&&this.scopeWakuVis?'blur('+this.initObj.sBokeh+'px)':'')};
+                        filter:'brightness('+(this.initObj.brightness/100)+')'+(this.initObj.sBokeh>0?'blur('+this.initObj.sBokeh+'px)':'')};
                     break;
                     case 'recurv':
                     obj={backgroundImage:"url(images/recpin.png)",

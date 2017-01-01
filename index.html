@@ -15,7 +15,7 @@
     <body style="width:100%;height:100%;background-color:#ccc">
         <div id="base_wrapper">
         <iframe v-bind:src="basesrc" id="baseframe"></iframe>
-        <div id="scope" v-show="(initObj.kind=='compound'||!scopeWakuVis)" v-bind:style="{filter:initObj.tBokeh>0?'blur('+initObj.tBokeh+'px)':'none'}">
+        <div id="scope" v-show="(initObj.kind=='compound'||!scopeWakuVis)" v-bind:style="{filter:initObj.tBokeh>0&&scopeWakuVis?'blur('+initObj.tBokeh+'px)':'none'}">
             <iframe v-bind:src="scopesrc" id="scopeframe"></iframe>
         </div>
         <div id="scopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis">            
