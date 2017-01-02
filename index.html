@@ -137,7 +137,7 @@
                 <figure>
                         <div id="markpre">
                             <div id="prewrapper">
-                                <div id="pretarget" v-bind:style="{backgroundImage:'url('+pretarget+')',filter:'blur('+initObj.tBokeh+'px)'}">
+                                <div id="pretarget" v-bind:style="{backgroundImage:'url('+pretarget+')',filter:((initObj.kind=='compound')?'blur('+initObj.tBokeh+'px)':'none')}">
                                 </div>
 
                             <div id="prescopewaku" v-bind:style="scopewaku" v-show="scopeWakuVis"> 
@@ -156,10 +156,12 @@
                         サイトボケ
                     </figcaption>
                     <div id="sbokehliderset" class="ruler sliderBase"><div id="sbokehSliderbutt" class="sliderButt">|</div></div>
+                    <div v-show="initObj.kind=='compound'">
                     <figcaption>
                         スコープ内ボケ
                     </figcaption>
                     <div id="tbokehliderset" class="ruler sliderBase"><div id="tbokehSliderbutt" class="sliderButt">|</div></div>
+                    </div>
                     <figcaption>
                         スタビライズ強度:range<span class="number" v-text="initObj.stabilize"></span>
                     </figcaption>
