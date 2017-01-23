@@ -212,6 +212,7 @@ var bridgeCtrl,vueApp
                     var io = this.initObj;
                     
                     Object.keys(obj).forEach(function(key){
+                        //旧タイプのオブジェクトでタイプが会わない場合はソース側のオブジェクトで上書き
                         var value = this[key];
                         if(typeof io[key] !== typeof value){
                             this[key] = io[key];
@@ -223,7 +224,10 @@ var bridgeCtrl,vueApp
                     
                     io.pin      = typeof obj.pin === void(0)?io.pin:obj.pin;
                     io.mark     = typeof obj.mark === void(0)?io.mark:obj.mark;
-                    io.ringOrDot= typeof obj.ringOrDot === void(0)?io.ringOrDot:obj.ringOrDot;
+                    
+                    
+                    io.onRing   = (typeof obj.onRing === "boolean")?obj.onRing:true;
+                    io.onDot    = (typeof obj.onDot === "boolean")?obj.onDot:true;
                     
                     io.markColor= obj.markColor||io.markColor;
                     io.dot      = obj.dot||io.dot;
