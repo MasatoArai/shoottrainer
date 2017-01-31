@@ -171,7 +171,7 @@ var bridgeCtrl,vueApp
                         var north = compassdir;
                             //compassHeading(compassdir,ev.originalEvent.beta,ev.originalEvent.gamma);
                        if(self.orientation == "landscape"){
-                            north=(north+90)%360;
+                            north=(north-window.orientation)%360;
                         }
                         self.northDir=Math.floor(north);
                     });
@@ -386,7 +386,6 @@ var bridgeCtrl,vueApp
     }
     bridge.prototype.orientationChange = function(){
         //todo orientationchange
-        
             vueApp.orientationRotate = window.orientation;
             if(Math.abs(window.orientation)===90){
                 orientationDo(false);
