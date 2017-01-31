@@ -165,7 +165,7 @@ var bridgeCtrl,vueApp
                 },
                 getNorthDir:function(){//todo north has bug
                     var self = this;
-                    $(window).one('deviceorientation',function(ev){
+                    $(window).on('deviceorientation',function(ev){
                         var compassdir=ev.originalEvent.webkitCompassHeading||ev.originalEvent.alpha;
                         var north = compassHeading(compassdir,ev.originalEvent.beta,ev.originalEvent.gamma);
                        if(self.orientation == "landscape"){
