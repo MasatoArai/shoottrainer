@@ -170,7 +170,7 @@ var bridgeCtrl,vueApp
                         var north = compassdir;
                             //compassHeading(compassdir,ev.originalEvent.beta,ev.originalEvent.gamma);
                        if(self.orientation == "landscape"){
-                            north=north+90%360;
+                            north=(north+90)%360;
                         }
                         self.northDir=Math.floor(north);
                     });
