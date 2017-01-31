@@ -171,7 +171,7 @@ var bridgeCtrl,vueApp
                         if(ev.originalEvent.orientation == "landscape"){
                             north-=180;
                         }
-                        self.northDir=north;
+                        self.northDir=Math.floor(north);
                     });
                     function compassHeading(alpha, beta, gamma) {
                       var degtorad = Math.PI / 180; // Degree-to-Radian conversion
