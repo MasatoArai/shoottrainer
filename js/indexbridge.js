@@ -64,6 +64,7 @@ var bridgeCtrl,vueApp
                   tBokeh:0
               },
               orientation:"portrait",
+              orientationRotate:0,
               northDir:-1,
               showMenu:false,
               basesrc:"base.html",
@@ -566,6 +567,7 @@ var bridgeCtrl,vueApp
                 height:$sliderbase.height()-$sliderbut.height()
             };
         var self = this;
+            self.orientationRotate = window.orientation;
             if(Math.abs(window.orientation)===90){
                 self.position = 'landscape';
                 //landscape
