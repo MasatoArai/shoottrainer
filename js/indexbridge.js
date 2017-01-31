@@ -32,11 +32,6 @@ var bridgeCtrl,vueApp
 
 (function(){
     document.addEventListener('DOMContentLoaded',function(event){
-        window.addEventListener('orientationchange',function(){
-            bridgeCtrl.orientationChange();
-            vueApp.hitCheckSlider.setOrientation();
-            vueApp.geoCorrectioner.changeOri();
-        });
         window.addEventListener('unload',function(){
            vueApp.setStrageData(); 
         });
@@ -68,6 +63,8 @@ var bridgeCtrl,vueApp
                   sBokeh:0,
                   tBokeh:0
               },
+              orientation:"portrait",
+              northDir:-1,
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
@@ -164,7 +161,48 @@ var bridgeCtrl,vueApp
                     function degToRad(n){
                         return n * Math.PI/180;
                     }
-                    
+                    this.getNorthDir();
+                },
+                getNorthDir:function(){//todo north has bug
+                    var self = this;
+                    $(window).one('deviceorientation',function(ev){
+                        var compassdir=ev.originalEvent.webkitCompassHeading||ev.originalEvent.alpha;
+                        var north = compassHeading(compassdir,ev.originalEvent.beta,ev.originalEvent.gamma);
+                        if(ev.originalEvent.orientation == "landscape"){
+                            north-=180;
+                        }
+                        self.northDir=north;
+                    });
+                    function compassHeading(alpha, beta, gamma) {
+                      var degtorad = Math.PI / 180; // Degree-to-Radian conversion
+
+                      var _x = beta ? beta * degtorad : 0; // beta value
+                      var _y = gamma ? gamma * degtorad : 0; // gamma value
+                      var _z = alpha ? alpha * degtorad : 0; // alpha value
+
+                      var cX = Math.cos(_x);
+                      var cY = Math.cos(_y);
+                      var cZ = Math.cos(_z);
+                      var sX = Math.sin(_x);
+                      var sY = Math.sin(_y);
+                      var sZ = Math.sin(_z);
+
+                      // Calculate Vx and Vy components
+                      var Vx = -cZ * sY - sZ * sX * cY;
+                      var Vy = -sZ * sY + cZ * sX * cY;
+
+                      // Calculate compass heading
+                      var compassHeading = Math.atan(Vx / Vy);
+
+                      // Convert compass heading to use whole unit circle
+                      if (Vy < 0) {
+                        compassHeading += Math.PI;
+                      } else if (Vx < 0) {
+                        compassHeading += 2 * Math.PI;
+                      }
+
+                      return compassHeading * ( 180 / Math.PI ); // Compass Heading (in degrees)
+                    }
                 },
                 clearShoot:function(){
                     bridgeCtrl.clearShoot();
@@ -304,6 +342,9 @@ var bridgeCtrl,vueApp
             },
         mounted:function(){
             var self = this;
+            /*$(window).on('orientationchange',function(ev){
+                self.orientation = ev.orientation;
+            });*/
             this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
@@ -342,11 +383,14 @@ var bridgeCtrl,vueApp
         
     }
     bridge.prototype.orientationChange = function(){
+        //todo orientationchange
             if(Math.abs(window.orientation)===90){
                 orientationDo(false);
+                vueApp.orientation = "landscape";
                 //landscape
             }else{
                 orientationDo(true);
+                vueApp.orientation="portrait";
                 //portrait
             }
             function orientationDo(b){
@@ -381,6 +425,13 @@ var bridgeCtrl,vueApp
         if(this.baseframe&&this.scopeframe){
             var self=this;
             setTimeout(function(){
+                //todo 変更点　orientationchange
+                window.addEventListener('orientationchange',function(ev){
+                    self.orientationChange();
+                    vueApp.hitCheckSlider.setOrientation();
+                    vueApp.geoCorrectioner.changeOri();
+                });
+                
                 self.orientationChange();
                 vueApp.initWorld();
             })
