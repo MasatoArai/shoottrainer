@@ -168,9 +168,9 @@ var bridgeCtrl,vueApp
                     $(window).one('deviceorientation',function(ev){
                         var compassdir=ev.originalEvent.webkitCompassHeading||ev.originalEvent.alpha;
                         var north = compassHeading(compassdir,ev.originalEvent.beta,ev.originalEvent.gamma);
-                       /* if(ev.originalEvent.orientation == "landscape"){
+                       if(self.orientation == "landscape"){
                             north-=180;
-                        }*/
+                        }
                         self.northDir=Math.floor(north);
                     });
                     function compassHeading(alpha, beta, gamma) {
