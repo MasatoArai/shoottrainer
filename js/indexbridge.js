@@ -386,6 +386,8 @@ var bridgeCtrl,vueApp
     }
     bridge.prototype.orientationChange = function(){
         //todo orientationchange
+        
+            vueApp.orientationRotate = window.orientation;
             if(Math.abs(window.orientation)===90){
                 orientationDo(false);
                 vueApp.orientation = "landscape";
@@ -567,7 +569,6 @@ var bridgeCtrl,vueApp
                 height:$sliderbase.height()-$sliderbut.height()
             };
         var self = this;
-            self.orientationRotate = window.orientation;
             if(Math.abs(window.orientation)===90){
                 self.position = 'landscape';
                 //landscape
