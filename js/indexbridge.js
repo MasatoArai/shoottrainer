@@ -456,7 +456,7 @@ var bridgeCtrl,vueApp
         }
     
     bridge.prototype.linkRotation = function(obj){
-        var camYaw = obj.y;
+        var camYaw = (360+obj.y)%360;
         
         if(!this.vueApp.scopeWakuVis){
            obj = this.vueApp.scopeDragPos;
@@ -470,9 +470,10 @@ var bridgeCtrl,vueApp
         
         var magDir = (360+(this.vueApp.centerDirByNorth-this.vueApp.northDir))%360;
         var dig = magDir-camYaw;//コンパスとジャイロの差異
+        
+            this.vueApp.tmpData = magDir;
         if(Math.abs(dig)>3){
             this.magrecovery(dig);
-            this.vueApp.tmpData ++;
         }
     }
     
