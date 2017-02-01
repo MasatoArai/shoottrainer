@@ -68,7 +68,7 @@ var bridgeCtrl,vueApp
               orientationRotate:0,
               northDir:-1,
               centerTrimDeg:NaN,
-              centerDirByNorth:-1,
+              centerDirByNorth:0,
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
