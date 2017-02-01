@@ -354,6 +354,7 @@ var bridgeCtrl,vueApp
             },
         mounted:function(){
             var self = this;
+            bridgeCtrl.regVue(this);
             this.getNorthDir();
             this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
@@ -382,6 +383,10 @@ var bridgeCtrl,vueApp
     function bridge(){
         this.baseframe;
         this.scopeframe;
+        this.vueApp;
+    }
+    bridge.prototype.regVue = function(v){
+        this.vueApp = v;
     }
     bridge.prototype.shoot = function(){
         this.baseframe.contentWindow.baseCtrl.shoot();
@@ -393,15 +398,16 @@ var bridgeCtrl,vueApp
         
     }
     bridge.prototype.orientationChange = function(){
-        //todo orientationchange
-            vueApp.orientationRotate = window.orientation;
+        //todo orientationchan
+        if(!this.vueApp)return;
+            this.vueApp.orientationRotate = window.orientation;
             if(Math.abs(window.orientation)===90){
                 orientationDo(false);
-                vueApp.orientation = "landscape";
+                this.vueApp.orientation = "landscape";
                 //landscape
             }else{
                 orientationDo(true);
-                vueApp.orientation="portrait";
+                this.vueApp.orientation="portrait";
                 //portrait
             }
             function orientationDo(b){
@@ -439,20 +445,21 @@ var bridgeCtrl,vueApp
                 //todo 変更点　orientationchange
                 window.addEventListener('orientationchange',function(ev){
                     self.orientationChange();
-                    vueApp.hitCheckSlider.setOrientation();
-                    vueApp.geoCorrectioner.changeOri();
+                    self.vueApp.hitCheckSlider.setOrientation();
+                    self.vueApp.geoCorrectioner.changeOri();
                 });
                 
                 self.orientationChange();
-                vueApp.initWorld();
+                self.vueApp.initWorld();
             })
         }
         }
     bridge.prototype.linkRotation = function(obj){
-        if(!vueApp.scopeWakuVis){
-           obj = vueApp.scopeDragPos;
+        if(!this.vueApp.scopeWakuVis){
+           obj = this.vueApp.scopeDragPos;
             //$('#deb').text('x'+obj.x+';y:'+obj.y+';z:'+obj.x);
         }
+        this.vueApp.tmpData = obj.y;
         if(this.scopeframe){
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
