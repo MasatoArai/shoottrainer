@@ -454,18 +454,34 @@ var bridgeCtrl,vueApp
             })
         }
         }
+    
     bridge.prototype.linkRotation = function(obj){
+        var camYaw = obj.y;
+        
         if(!this.vueApp.scopeWakuVis){
            obj = this.vueApp.scopeDragPos;
             //$('#deb').text('x'+obj.x+';y:'+obj.y+';z:'+obj.x);
         }
-        this.vueApp.tmpData = obj.y;
         if(this.scopeframe){
             if(this.scopeframe.contentWindow.scopeCtrl)            this.scopeframe.contentWindow.scopeCtrl.setRotation(obj);
         }
         
-      /*  $("#deb").html('yaw.y:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].yawObject.rotation.y+'<br>dragInteg:'+this.baseframe.contentWindow.baseCtrl.cam.components['look-controls'].dragInteg+'<br>direct.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct').y+'<br>camrota.y:'+this.baseframe.contentWindow.baseCtrl.cam.getAttribute('rotation').y);*/
+        if(!this.vueApp.scopeWakuVis)return;
+        
+        var magDir = (360+(this.vueApp.centerDirByNorth-this.vueApp.northDir))%360;
+        var dig = magDir-camYaw;//コンパスとジャイロの差異
+        if(Math.abs(dig)>3){
+            this.magrecovery(dig);
+            this.vueApp.tmpData ++;
+        }
     }
+    
+    bridge.prototype.magrecovery=function(dig){//修正dir指定
+        var direct = this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct');   
+        direct.y += degToRad(dig);
+        this.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
+    }
+    
     bridge.prototype.setLensTimes = function(n){
         if(this.scopeframe){
             if(this.scopeframe.contentWindow.scopeCtrl) {
