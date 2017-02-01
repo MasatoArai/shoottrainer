@@ -182,8 +182,8 @@
             <div style="position:absolute;top:20vh;left:0;background-color:rgba(255,255,255,0.6);color:#000;font-size:3vh">
                 N:{{northDir}}<br>
                 TD:{{Math.floor(centerTrimDeg)}}<br>
-                Itg:{{Math.floor(northDir-centerDirByNorth)}}<br>
-                Cy:{{tmpData}}
+                Itg:{{(360+(Math.floor(northDir-centerDirByNorth)))%360}}<br>
+                Cy:{{(360+tmpData)%360}}
                                     
             </div>
             </div>
