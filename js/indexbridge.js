@@ -471,7 +471,7 @@ var bridgeCtrl,vueApp
         var magDir = (360+(this.vueApp.centerDirByNorth-this.vueApp.northDir))%360;
         var dig = magDir-camYaw;//コンパスとジャイロの差異
         
-            this.vueApp.tmpData = magDir;
+            this.vueApp.tmpData = camYaw;
         if(Math.abs(dig)>3){
             this.magrecovery(dig);
         }
