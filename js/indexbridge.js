@@ -473,10 +473,9 @@ var bridgeCtrl,vueApp
         if(Math.abs(dig)>180){
             dig = dig>0?360-dig:360+dig;
         }
+            this.vueApp.tmpData=dig;
         if(Math.abs(dig)>3){ 
-            
-            this.vueApp.tmpData++;
-            this.magrecovery(dig);
+            //this.magrecovery(dig);
         }
     }
     
