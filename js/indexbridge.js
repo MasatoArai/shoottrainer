@@ -182,7 +182,7 @@ var bridgeCtrl,vueApp
                        if(self.orientation == "landscape"){
                             north=(360+(north+self.orientationRotate))%360;
                         }
-                        self.northDir=Math.floor(north);
+                        self.northDir=north;
                     });
                     //note:いらないようだ↓
                     function compassHeading(alpha, beta, gamma) {
@@ -471,11 +471,12 @@ var bridgeCtrl,vueApp
         var magDir = this.vueApp.centerDirByNorth-this.vueApp.northDir;
         var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異
         if(Math.abs(dig)>180){
-            dig = dig>0?360-dig:-360+dig;
+            dig = dig>0?360-dig:360+dig;
         }
-            this.vueApp.tmpData = dig;
-        if(Math.abs(dig)>3){          
-            //this.magrecovery(dig);
+        if(Math.abs(dig)>3){ 
+            
+            this.vueApp.tmpData++;
+            this.magrecovery(dig);
         }
     }
     
