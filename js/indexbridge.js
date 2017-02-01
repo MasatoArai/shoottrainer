@@ -66,6 +66,8 @@ var bridgeCtrl,vueApp
               orientation:"portrait",
               orientationRotate:0,
               northDir:-1,
+              centerTrimDeg:NaN,
+              centerDirByNorth:-1,
               showMenu:false,
               basesrc:"base.html",
               scopesrc:"scope.html",
@@ -159,12 +161,18 @@ var bridgeCtrl,vueApp
                     
                     direct.y += degToRad(-camrotationObj.y)+dragInteg;
                     bridgeCtrl.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
+                    
+                    this.centerDirByNorth = this.northDir;
+                    this.centerTrimDeg = radToDeg(direct.y);
+                    
                     function degToRad(n){
                         return n * Math.PI/180;
                     }
-                    this.getNorthDir();
+                    function radToDeg(r){
+                        return r * 360/(2*Math.PI);
+                    }
                 },
-                getNorthDir:function(){//todo north has bug
+                getNorthDir:function(){
                     var self = this;
                     $(window).on('deviceorientation',function(ev){
                         var compassdir=ev.originalEvent.webkitCompassHeading||ev.originalEvent.alpha;
@@ -175,6 +183,7 @@ var bridgeCtrl,vueApp
                         }
                         self.northDir=Math.floor(north);
                     });
+                    //note:いらないようだ↓
                     function compassHeading(alpha, beta, gamma) {
                       var degtorad = Math.PI / 180; // Degree-to-Radian conversion
 
@@ -344,9 +353,7 @@ var bridgeCtrl,vueApp
             },
         mounted:function(){
             var self = this;
-            /*$(window).on('orientationchange',function(ev){
-                self.orientation = ev.orientation;
-            });*/
+            this.getNorthDir();
             this.getStrageData();
             this.hitCheckSlider = new HitCheckSlider(this);
             this.geoCorrectioner = new GeoCorrectioner(this);
