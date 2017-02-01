@@ -469,10 +469,10 @@ var bridgeCtrl,vueApp
         if(!this.vueApp.scopeWakuVis)return;
         
         var magDir = this.vueApp.centerDirByNorth-this.vueApp.northDir;
-        var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異
+        var dig = (360+(magDir-camYaw))%180;//コンパスとジャイロの差異
         
             this.vueApp.tmpData = dig;
-        if(Math.abs(dig)>3){
+        if(Math.abs(dig)>3){          
             this.magrecovery(dig);
         }
     }
