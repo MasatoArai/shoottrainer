@@ -47,6 +47,7 @@ var bridgeCtrl,vueApp
         vueApp = new Vue({
           el: '#base_wrapper',
           data: {
+              tmpData:0,
               initObj:{
                   kind:'compound',
                   zoom:8,

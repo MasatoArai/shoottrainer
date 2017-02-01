@@ -82,6 +82,8 @@ AFRAME.registerComponent('stabilize', {
         function lookloop(){
             window.requestAnimationFrame(lookloop);
             var camRotation = self.cam.getAttribute("rotation");
+            //fixme
+            parent.vueApp.tmpData = camRotation.y;
             var srad = Math.atan2(camRotation.y,camRotation.x)*180/Math.PI;
             self.cone.setAttribute('rotation',{x:-camRotation.x-90,y:-camRotation.y,z:-camRotation.z});
             self.directcone.setAttribute('rotation',{x:0,y:0,z:srad-180});

@@ -57935,8 +57935,8 @@ module.exports.Component = registerComponent('look-controls', {
       this.stabilizeCameraRotationYtime = [];
       this.rotationTime = 0;
       this.stabilizeRange = 1;
-      this.dragging = 0;
-      this.dragInteg = 0;
+      this.dragging = 0;//にじり移動毎量
+      this.dragInteg = 0;//にじり移動毎量積算値
 
     // Enable grab cursor class on canvas.
     function enableGrabCursor () { sceneEl.canvas.classList.add('a-grab-cursor'); }
