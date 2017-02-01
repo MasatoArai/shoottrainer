@@ -484,6 +484,10 @@ var bridgeCtrl,vueApp
         var direct = this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct');   
         direct.y += degToRad(dig);
         this.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
+        
+                    function degToRad(n){
+                        return n * Math.PI/180;
+                    }
     }
     
     bridge.prototype.setLensTimes = function(n){
