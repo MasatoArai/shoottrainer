@@ -383,6 +383,7 @@ var bridgeCtrl,vueApp
     function bridge(){
         this.baseframe;
         this.scopeframe;
+        this.lastYaw=0;
         this.vueApp;
     }
     bridge.prototype.regVue = function(v){
@@ -469,6 +470,9 @@ var bridgeCtrl,vueApp
         if(!this.vueApp.scopeWakuVis)return;
         
         var magDir = this.vueApp.centerDirByNorth-this.vueApp.northDir;
+        this.vueApp.tmpData = this.lastYaw-camYaw;
+        this.lastYaw = camYaw;
+        /*
         var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異
         if(Math.abs(dig)>180){
             dig = dig>0?360-dig:360+dig;
@@ -476,10 +480,10 @@ var bridgeCtrl,vueApp
             this.vueApp.tmpData=dig;
         if(Math.abs(dig)>3){ 
             //this.magrecovery(dig);
-        }
+        }*/
     }
     
-    bridge.prototype.magrecovery=function(dig){//修正dir指定
+    bridge.prototype.magrecovery=function(dig){//修正dir指定 todo:
         var direct = this.baseframe.contentWindow.baseCtrl.cam.getAttribute('direct');   
         direct.y += degToRad(dig);
         this.baseframe.contentWindow.baseCtrl.cam.setAttribute('direct',direct);
