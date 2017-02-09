@@ -101,7 +101,7 @@ var bridgeCtrl,vueApp
                     var styl = {};
                     var par = 0;
                     var ingdata = this.ingData;
-                    ingdata *= 1000;
+                    ingdata *= 100;
                     if(Math.abs(Math.ceil(ingdata))>=1){
                         ingdata = (ingdata>0)?1:-1;
                     }
