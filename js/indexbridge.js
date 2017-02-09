@@ -109,7 +109,7 @@ var bridgeCtrl,vueApp
                     styl.width=Math.abs(par)+'%';
                     if(ingdata<0){
                         styl.left='50%';
-                        styl.backgroundColor="green";
+                        styl.backgroundColor="#ff9d00";
                     }else{
                         styl.right='50%';
                         styl.backgroundColor='yellow';
