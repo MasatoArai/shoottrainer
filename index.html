@@ -33,7 +33,9 @@
                 </div>
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-on:click="clearShoot">Clear</button>
-                <div id="moveIng"></div>
+                <div id="moveIng">
+                    <div id="ingBar" :style="ingBar"></div>
+                </div>
                 <div id="dragSliderset" class="ruler"><div id="dragSliderbutt">&gt;|&lt;</div></div>
                 <div id="sliderset"><div id="sliderbutt"></div></div>
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
@@ -183,7 +185,7 @@
             <div style="position:absolute;top:20vh;left:0;background-color:rgba(255,255,255,0.6);color:#000;font-size:3vh">
                 N:{{Math.floor(northDir)}}<br>
                 TD:{{Math.floor(centerTrimDeg)}}<br>
-                Cy:{{tmpData}}
+                Cy:{{ingData}}
                                     
             </div>
             </div>

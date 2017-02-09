@@ -48,6 +48,7 @@ var bridgeCtrl,vueApp
           el: '#base_wrapper',
           data: {
               tmpData:0,
+              ingData:0,
               initObj:{
                   kind:'compound',
                   zoom:8,
@@ -96,6 +97,26 @@ var bridgeCtrl,vueApp
               debtext:""
           },
             computed:{
+                ingBar:function(){
+                    var styl = {};
+                    var par = 0;
+                    var ingdata = this.ingData;
+                    ingdata *= 1000;
+                    if(Math.abs(Math.ceil(ingdata))>=1){
+                        ingdata = (ingdata>0)?1:-1;
+                    }
+                    par = 50*ingdata;
+                    styl.width=Math.abs(par)+'%';
+                    if(ingdata<0){
+                        styl.left='50%';
+                        styl.backgroundColor="green";
+                    }else{
+                        styl.right='50%';
+                        styl.backgroundColor='yellow';
+                    }
+                    return styl;
+                    
+                },
                 scopewaku:function(){
                     var obj={};
                     switch(this.initObj.kind){
@@ -470,7 +491,8 @@ var bridgeCtrl,vueApp
         if(!this.vueApp.scopeWakuVis)return;
         
         var magDir = this.vueApp.centerDirByNorth-this.vueApp.northDir;
-        this.vueApp.tmpData = camYaw-this.lastYaw;
+        this.vueApp.tmpData = camYaw;
+        this.vueApp.ingData = camYaw-this.lastYaw;
         this.lastYaw = camYaw;
         /*
         var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異

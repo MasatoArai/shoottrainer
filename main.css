@@ -209,14 +209,11 @@ button.select{
     bottom: 34vmin;
     left: 15vmin;
 }
-#moveIng:after{
+#moveIng #ingBar{
     content: '';
     background-color: yellow;
     position: absolute;
-    left:50%;
-    transform: translateX(-50%);
     height: 2vmin;
-    width: 10vmin;
 }
 #dragSliderset{
     background-repeat: repeat-x;
