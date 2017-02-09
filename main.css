@@ -206,8 +206,9 @@ button.select{
     position: absolute;
     width: 70vmin;
     height: 4vmin;
-    bottom: 34vmin;
-    left: 15vmin;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.58);
 }
 #moveIng #ingBar{
     content: '';
@@ -245,6 +246,9 @@ button.select{
     line-height: 20px
 }
 @media screen and (orientation: landscape){
+    #moveIng{
+    bottom: 19vmin;
+    }
 #sliderset{
     width: 42px;
     height:50vmin;
@@ -268,6 +272,9 @@ button.select{
     }
 }
 @media screen and (orientation: portrait){
+        #moveIng{
+    bottom: 34vmin;
+    }
 #sliderset{
     height: 42px;
     width:50vmin;
