@@ -33,7 +33,8 @@
                 </div>
                 <button id="menubut" v-if="!showMenu" v-on:click="showMenu=true">MENU</button>
                 <button id="clearbut" v-on:click="clearShoot">Clear</button>
-                <div id="dragSliderset" class="ruler">Geomagnetic displacement correction<div id="dragSliderbutt">&gt;|&lt;</div></div>
+                <div id="moveIng"></div>
+                <div id="dragSliderset" class="ruler"><div id="dragSliderbutt">&gt;|&lt;</div></div>
                 <div id="sliderset"><div id="sliderbutt"></div></div>
                 <button id="centerTrim" v-on:click="centerTrim()">[ ┼ ]</button>
                 <a id="shootbut" v-show="shootbut"></a>

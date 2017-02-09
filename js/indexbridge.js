@@ -470,7 +470,7 @@ var bridgeCtrl,vueApp
         if(!this.vueApp.scopeWakuVis)return;
         
         var magDir = this.vueApp.centerDirByNorth-this.vueApp.northDir;
-        this.vueApp.tmpData = camYaw;
+        this.vueApp.tmpData = camYaw-this.lastYaw;
         this.lastYaw = camYaw;
         /*
         var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異

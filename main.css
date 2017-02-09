@@ -115,7 +115,7 @@ button.select{
 }
 #centerTrim{
     position: absolute;
-    bottom: 20px;
+    bottom: 4vmin;
     right: 10px;
     border: 2px solid rgba(255,255,255,0.5);
     color: #fff;
@@ -202,7 +202,21 @@ button.select{
     line-height: 20px
 }
 
-#stabiSliderbutt{
+#moveIng{
+    position: absolute;
+    width: 70vmin;
+    height: 4vmin;
+    bottom: 34vmin;
+    left: 15vmin;
+}
+#moveIng:after{
+    content: '';
+    background-color: yellow;
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    height: 2vmin;
+    width: 10vmin;
 }
 #dragSliderset{
     background-repeat: repeat-x;
@@ -211,7 +225,7 @@ button.select{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    height: 50px;
+    height: 16vmin;
     width: 70vmin;
     color: #fff;
     text-align: center;
@@ -237,7 +251,7 @@ button.select{
 #sliderset{
     width: 42px;
     height:50vmin;
-    bottom: 20px;
+    bottom: 4vmin;
     left: 40px;
 }   
 #sliderset div{
@@ -253,15 +267,15 @@ button.select{
     top: calc(50vmin - 80px);
 }
 #dragSliderset{
-    bottom: 20px;
+    bottom: 5vmin;
     }
 }
 @media screen and (orientation: portrait){
 #sliderset{
     height: 42px;
     width:50vmin;
-    bottom: 20px;
-    left: 20px;
+    bottom: 5vmin;
+    left: 5vmin;
 }
     
 #sliderset div{
@@ -277,7 +291,7 @@ button.select{
     left: 0px;
 }
 #dragSliderset{
-    bottom: 100px;
+    bottom: 20vmin;
     }
 }
 
