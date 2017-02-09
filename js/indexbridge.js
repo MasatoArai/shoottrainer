@@ -102,7 +102,7 @@ var bridgeCtrl,vueApp
                     var par = 0;
                     var ingdata = this.ingData;
                     ingdata *= 100;
-                    if(Math.abs(Math.ceil(ingdata))>=1){
+                    if(Math.abs(ingdata)>=1){
                         ingdata = (ingdata>0)?1:-1;
                     }
                     par = 50*ingdata;
