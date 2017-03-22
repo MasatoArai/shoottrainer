@@ -86,6 +86,11 @@ var bridgeCtrl,vueApp
               tbokehslider:{},
               sliderFor:"",
               shootbut:true,
+              
+              flamesLoaded:false,
+              splash:true,
+              isShowCopy:false,
+              
               colors:{
                   orange:'#ff9242',
                   yellow:'#e2ff42',
@@ -96,6 +101,17 @@ var bridgeCtrl,vueApp
               deb:false,
               debtext:""
           },
+            watch:{
+                
+                flamesLoaded:function(val){
+                    var self = this;
+                    if(val){
+                        setTimeout(function(){
+                        self.splash=false;
+                        },3000);
+                    }
+                }
+            },
             computed:{
                 ingBar:function(){
                     var styl = {};
@@ -165,6 +181,14 @@ var bridgeCtrl,vueApp
             }
           },
             methods: {
+                showCopy:function(b){
+                    if(b){
+                    this.splash=true;
+                    this.isShowCopy=true;
+                    }else{
+                    this.splash=false;
+                    }
+                },
                 initWorld:function(){
                     this.setTargetFace(this.initObj.targetFace);
                     this.setScopeKind(this.initObj.kind);
@@ -461,20 +485,21 @@ var bridgeCtrl,vueApp
                     this.scopeframe = document.querySelector('#scopeframe');
                     break;
             }
-        if(this.baseframe&&this.scopeframe){
-            var self=this;
-            setTimeout(function(){
-                //todo 変更点　orientationchange
-                window.addEventListener('orientationchange',function(ev){
+            if(this.baseframe&&this.scopeframe){
+                var self=this;
+                this.vueApp.flamesLoaded = true;
+                setTimeout(function(){
+                    //todo 変更点　orientationchange
+                    window.addEventListener('orientationchange',function(ev){
+                        self.orientationChange();
+                        self.vueApp.hitCheckSlider.setOrientation();
+                        self.vueApp.geoCorrectioner.changeOri();
+                    });
+
                     self.orientationChange();
-                    self.vueApp.hitCheckSlider.setOrientation();
-                    self.vueApp.geoCorrectioner.changeOri();
-                });
-                
-                self.orientationChange();
-                self.vueApp.initWorld();
-            })
-        }
+                    self.vueApp.initWorld();
+                })
+            }
         }
     
     bridge.prototype.linkRotation = function(obj){

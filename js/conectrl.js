@@ -35,8 +35,17 @@ AFRAME.registerComponent('stabilize', {
 　}
 });
     
+    AFRAME.registerComponent('start-link',{
+        init:function(){
+            baseCtrl = new BaseCtrl();
+            baseCtrl.setToBridge();
+            baseCtrl.startLoop();
+        }
+    });
+    
+    /*
     document.addEventListener('DOMContentLoaded',function(event){
-        baseCtrl = new BaseCtrl();
+            baseCtrl = new BaseCtrl();
         baseCtrl.cam.addEventListener('loaded',function(ev){
             baseCtrl.setToBridge();
             baseCtrl.startLoop();

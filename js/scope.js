@@ -1,10 +1,19 @@
 var scopeCtrl;
 (function(){
+    /*
      document.addEventListener('DOMContentLoaded',function(event){
         scopeCtrl=new Ctrl();
           scopeCtrl.cam.addEventListener('loaded',function(ev){ parent.bridgeCtrl.setIframe('#scopeframe');
         });
         
+    });
+    */
+
+    AFRAME.registerComponent('start-link',{
+        init:function(){
+            scopeCtrl = new Ctrl();
+            parent.bridgeCtrl.setIframe('#scopeframe');
+        }
     });
     
 AFRAME.registerComponent('stabilize', {

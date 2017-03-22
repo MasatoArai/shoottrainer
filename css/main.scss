@@ -1,0 +1,714 @@
+
+$set-prefix: -webkit-,
+-moz-,
+-o-,
+'';
+@mixin pre($name, $value) {
+    @each $prefix in $set-prefix {
+        #{$prefix}#{$name}: $value;
+    }
+}
+
+@mixin preval($name, $value) {
+    @each $prefix in $set-prefix {
+        #{$name}: #{$prefix}#{$value};
+    }
+}
+
+@mixin keyframes($aname) {
+    @-webkit-keyframes #{$aname} {
+        @content;
+    }
+    @-moz-keyframes #{$aname} {
+        @content;
+    }
+    @keyframes #{$aname} {
+        @content;
+    }
+}
+
+@mixin animation($animation-name) {
+    -webkit-animation: $animation-name;
+    -moz-animation: $animation-name;
+    animation: $animation-name;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@mixin flex() {
+    display: -webkit-box;
+    /*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;
+    /*--- IE10 ---*/
+    display: -webkit-flex;
+    /*--- safari（PC）用 ---*/
+    display: flex;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+}
+
+button {
+  min-width: 100px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  outline: none;
+  &:active, &:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  &.select {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+#base_wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#scope {
+  position: absolute;
+  width: 65vmin;
+  height: 65vmin;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#baseframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: none;
+}
+
+#scopeframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#base_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#scopewaku {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70vmin;
+  height: 70vmin;
+  transform: translate(-50%, -50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+#scopering {
+  width: 100%;
+  height: 100%;
+}
+
+#scopepin {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-image: url(images/scopepin.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#gard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#menubut {
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 10px;
+}
+
+#clearbut {
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 10px;
+}
+
+#centerTrim {
+  position: absolute;
+  bottom: 4vmin;
+  right: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 10px;
+}
+
+#sliderset {
+  position: absolute;
+  border: inset 2px #ccc;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  div {
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px #fff outset;
+    position: absolute;
+    left: 0;
+  }
+}
+
+.ruler {
+  background-image: url('data:image/svg+xml;utf8,<svg width="50" height="30" xmlns="http://www.w3.org/2000/svg"><g><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="25.8125" y1="13.54159" x2="25.8125" y2="0.03935" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/><line fill="none" stroke-width="1.5" x1="32.06246" y1="8.79161" x2="32.06246" y2="0.03935" id="svg_4" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="38.31243" y1="8.79161" x2="38.31243" y2="0.03935" id="svg_5" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="44.81239" y1="8.79161" x2="44.81239" y2="0.03935" id="svg_6" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="19.43753" y1="8.79161" x2="19.43753" y2="0.03935" id="svg_11" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="6.9376" y1="8.79161" x2="6.9376" y2="0.03935" id="svg_13" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke-width="1.5" x1="13.43757" y1="8.79161" x2="13.43757" y2="0.03935" id="svg_14" stroke-linejoin="undefined" stroke-linecap="undefined" stroke="#ffffff"/><line fill="none" stroke="#ffffff" stroke-width="1.5" x1="0.68763" y1="13.54159" x2="0.68763" y2="0.03935" id="svg_15" stroke-linejoin="undefined" stroke-linecap="undefined"/></g></svg>');
+}
+
+.radiussliderbase {
+  position: absolute;
+  top: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0 5px 10px 5px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  left: 50%;
+  transform: translateX(-50%);
+  .ruler {
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 300px;
+  }
+}
+
+.radiusSliderbutt {
+  height: 40px;
+  width: 80px;
+  min-width: 80px;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px #fff outset;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  font-size: 20px;
+  color: #000;
+  line-height: 20px;
+}
+
+#stabiSliderset {}
+
+.sliderBase {
+  background-repeat: repeat-x;
+  background-position: center top;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 43px;
+  width: 300px;
+}
+
+.sliderButt {
+  height: 30px;
+  width: 80px;
+  min-width: 80px;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px #fff outset;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  font-size: 20px;
+  color: #000;
+  line-height: 20px;
+}
+
+#moveIng {
+  position: absolute;
+  width: 70vmin;
+  height: 4vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.58);
+  #ingBar {
+    content: '';
+    background-color: yellow;
+    position: absolute;
+    height: 2vmin;
+  }
+}
+
+#dragSliderset {
+  background-repeat: repeat-x;
+  background-position: center top;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 16vmin;
+  width: 70vmin;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  line-height: 120px;
+}
+
+#dragSliderbutt {
+  height: 40px;
+  width: 80px;
+  min-width: 80px;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px #fff outset;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  font-size: 20px;
+  color: #000;
+  line-height: 20px;
+}
+
+@media screen and (orientation: landscape) {
+  #moveIng {
+    bottom: 19vmin;
+  }
+  #sliderset {
+    width: 42px;
+    height: 50vmin;
+    bottom: 4vmin;
+    left: 40px;
+    div {
+      width: 40px;
+      height: 80px;
+      min-height: 80px;
+      background-color: rgba(255, 255, 255, 0.8);
+      top: calc(50vmin - 80px);
+      &.ret {
+        transition: top 0.3s cubic-bezier(0.01, 0.56, 0.25, 1) 0s;
+        top: calc(50vmin - 80px);
+      }
+    }
+  }
+  #dragSliderset {
+    bottom: 5vmin;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  #moveIng {
+    bottom: 34vmin;
+  }
+  #sliderset {
+    height: 42px;
+    width: 50vmin;
+    bottom: 5vmin;
+    left: 5vmin;
+    div {
+      height: 40px;
+      width: 80px;
+      min-width: 80px;
+      background-color: #fff;
+      top: 0;
+      &.ret {
+        transition: left 0.3s cubic-bezier(0.01, 0.56, 0.25, 1) 0s;
+        left: 0px;
+      }
+    }
+  }
+  #dragSliderset {
+    bottom: 20vmin;
+  }
+}
+
+#shootbut {
+  position: absolute;
+  display: block;
+  right: 20px;
+  bottom: 27%;
+  width: 16vmin;
+  height: 16vmin;
+  border: 4px solid #fff;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+#dragSliderbutt {
+  height: 40px;
+  width: 80px;
+  min-width: 80px;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px #fff outset;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  font-size: 20px;
+  color: #000;
+  line-height: 20px;
+}
+
+#menu {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#menuclose {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-image: url(../images/close.svg);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+  height: 12vmin;
+  width: 12vmin;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+#showcopy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-image: url(../images/copyright.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 73%;
+  height: 12vmin;
+  width: 12vmin;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+#menu {
+  #menubody {
+    height: 100%;
+    overflow: auto;
+    overflow-scrolling: touch;
+    padding-bottom: 100px;
+  }
+  #kind {
+    padding-top: 60px;
+  }
+  #targetfaces button {
+    font-size: 20px;
+  }
+  figure {
+    font-size: 20px;
+    color: #fff;
+    padding-top: 10px;
+    figcaption {
+      text-align: center;
+      padding: 5px;
+      font-size: 17px;
+    }
+  }
+  #setring {
+    padding-top: 5px;
+    font-size: 20px;
+    text-align: center;
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    li button {
+      font-size: 25px;
+      color: #fff;
+      border: solid #fff 2px;
+      height: 40px;
+    }
+    &#kind li button {
+      font-size: 15px;
+    }
+  }
+  #scopeToggles li {
+    text-align: center;
+  }
+  .togglebase {
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    background-color: #b4b4b4;
+    border-radius: 20px;
+    padding-left: 40px;
+    position: relative;
+    transition: background-color 0.3s ease 0s;
+    &.active {
+      background-color: #ff9242;
+    }
+    .togglenob {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      left: 50%;
+      transition: left 0.3s ease 0s;
+      box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.23);
+    }
+    &.active .togglenob {
+      left: 0;
+    }
+  }
+  #typetoggle.togglebase {
+    background-color: #ff9242;
+    vertical-align: middle;
+    &.active {
+      background-color: #ff9242;
+    }
+  }
+  #scopeToggles {
+    padding-top: 20px;
+  }
+  #onRing, #onDot {
+    text-align: center;
+    position: relative;
+  }
+  #colorchip {
+    text-align: center;
+    padding: 20px 0 0;
+    a {
+      display: inline-block;
+      margin: 0 8px;
+      height: 40px;
+      width: 40px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      transition: all 0.5s ease 0s;
+      &.active {
+        border: 4px solid #fff;
+        border-radius: 0px;
+      }
+      &.orange {
+        background-color: #ff9242;
+      }
+      &.yellow {
+        background-color: #e2ff42;
+      }
+      &.green {
+        background-color: #51ff42;
+      }
+      &.black {
+        background-color: #464646;
+      }
+      &.frost {
+        background-color: #f4fcff;
+      }
+    }
+  }
+  #radius {
+    padding: 10px;
+    text-align: center;
+    position: relative;
+  }
+  span.number {
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 2px solid #fff;
+    transition: background 0.4s ease 0s;
+    &.active {
+      background-color: #e2ff42;
+      color: #000;
+    }
+  }
+  #markpre {
+    padding-top: 5px;
+  }
+  #prewrapper {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  #pretarget, #prescopewaku {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 70vmin;
+    height: 100%;
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  #prescopepin {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-image: url(images/scopepin.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #presvg {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+}
+
+#deb {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  width: 50%;
+  min-height: 30%;
+  transform: translateX(-50%);
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 9px;
+}
+
+#mask{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    z-index: 1000;
+}
+#splash{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 1003;
+    &.fade-enter-active{
+        transition:opacity 0.8s cubic-bezier(.24, .2, .57, .6);
+    }
+    &.fade-leave-active{
+        transition: opacity 2s cubic-bezier(.24, .2, .57, .6);
+    }
+    &.fade-enter,&.fade-leave-to{
+        opacity: 0;
+    }
+    &>div{
+        @include animation(zoom 3s cubic-bezier(.1, .48, .47, 1) alternate 1s);
+        &>div{
+                font-size: 133%;
+                white-space: nowrap;
+                position: relative;
+                margin-bottom: 2vmin;
+    font-weight: bold;
+            span{
+                font-size: 40%;
+                position: absolute;
+                bottom: -2vmin;
+                right: 0vmin;
+            }
+        }
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include pre(transform, translate(-50%,-50%));
+        text-align: center;
+        img{
+            display: block;
+                margin: 2vmax auto;
+                @include animation(yurayura 0.3s cubic-bezier(.53, .01, .47, 1) infinite alternate 0s)
+        }
+        span{
+            font-size: 60%;
+            white-space: nowrap;
+        }
+    }
+    
+    .closecopy {
+    position: absolute;
+    width: 7vmin;
+    height: 7vmin;
+    top: 12vmin;
+    left: 12vmin;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url(../images/closecopy.svg);
+    background-size:contain;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent !important;
+        &:active,
+        &:focus {
+            outline: 0;
+            opacity: 0.5;
+        }
+    }
+}
+
+@include keyframes(zoom){
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@include keyframes(yurayura){
+    0%{
+        @include pre(transform,rotate(-20deg));
+    }
+    100%{
+        @include pre(transform,rotate(20deg));
+    }
+}

@@ -10,7 +10,7 @@
     <title>test demo</title>
     
     <link rel="stylesheet" type="text/css" href="font/font.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/jquery.mobile.custom.min.js"></script>
     <script src="js/vue.js"></script>
@@ -177,8 +177,10 @@
                     </figure>
                     </div>
                 
-                <button id="menuclose" v-on:click="showMenu=false;setStrageData()">
-                </button>
+                <a id="menuclose" v-on:click="showMenu=false;setStrageData()">
+                </a>
+                <a id="showcopy" v-on:click="showCopy(true)">
+                </a>
             </div>
             </div>
             
@@ -188,6 +190,20 @@
                 Cy:{{ingData}}
                                     
             </div>-->
+            <div id="mask" v-if="!flamesLoaded">
+            </div>
+            <transition name="fade">
+            <div id="splash" v-if="splash">
+                <div v-if="flamesLoaded">
+                    <div>AIMMING TRAINER<span>v0.12</span></div>
+                    Presented by BALLS
+                    <img src="images/tama.svg">
+                    <span>Copyrights &copy; BALLS All Rights Reserved.</span>
+                </div>
+                <div id="closecopy" class="closecopy" v-on:click="showCopy(false)" v-if="isShowCopy"></div>
+            </div>
+            </transition>
+            
             </div>
     </body>
 </html>
