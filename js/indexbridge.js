@@ -68,7 +68,7 @@ var bridgeCtrl,vueApp
               orientation:"portrait",
               orientationRotate:0,
               northDir:-1,
-              centerTrimDeg:NaN,
+              centerTrimDeg:0,
               centerDirByNorth:0,
               showMenu:false,
               basesrc:"base.html",
@@ -519,6 +519,7 @@ var bridgeCtrl,vueApp
         this.vueApp.tmpData = camYaw;
         this.vueApp.ingData = camYaw-this.lastYaw;
         this.lastYaw = camYaw;
+        
         /*
         var dig = (360+(magDir-camYaw))%360;//コンパスとジャイロの差異
         if(Math.abs(dig)>180){
